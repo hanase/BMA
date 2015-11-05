@@ -2,7 +2,6 @@ useDynLib(BMA)
 
 import(survival, leaps, robustbase, inline, rrcov)
 importFrom("graphics", "axis", "image", "lines", "par", "points")
-importFrom("methods", "signature")
 importFrom("stats", "add1", "cmdscale", "dnorm", "drop1", "formula",
              "glm", "lm", "ls.print", "lsfit", "mad", "model.matrix",
              "na.omit", "pnorm", "qnorm", "rbinom", "rnorm", "terms",
