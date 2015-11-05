@@ -1,0 +1,115 @@
+3.18.5 (2015-11-05):
+- change of maintainer
+
+CHANGES for BMA 3.18.4
+- changed rrcov to required from suggested
+- registered S3methods in NAMESPACE
+
+CHANGES for BMA 3.18.2, 3.18.3
+- removed obsolete references to .ps files
+
+CHANGES for BMA 3.18.1
+- removed printing in bic.glm.R
+
+CHANGES for BMA 3.18
+- namespace unlocking added to allow global variables in iBMA [Max Henschell]
+	
+CHANGES for BMA 3.17
+- fixed create.assign [Hana Sevcikova]
+- fixed problems with factor handling [Horace Tso]
+- fixed subsetting for prior.param when columns are dropped
+	
+CHANGES for BMA 3.16.2.3
+- fixed names(probne0) in bic.glm.data.frame to work shen when dropped == 0
+- changed default nbest to 150 for bicreg [overlooked earlier]
+
+CHANGES for BMA 3.16.2.2
+- changed CHANGELOG to ChangeLog
+- utils::globalVariables for nastyhack
+
+CHANGES for BMA 3.16.2.1
+- added robustbase to requires to supply ltsReg for mc3
+- man out.lmsrg.Rd --> out.ltsreg.Rd
+
+CHANGES for BMA 3.16.2
+- changed default nbest to 150 [in bic.glm and bic.surv]
+
+CHANGES for BMA 3.16.1
+bic.glm:
+- fixed the mechanism for dropping columns when there are more than maxCol
+  (reported by Patrick Ball)
+- changed documentation to say that maxCol does not include intercept
+ (it did not in the past but the documentation was wrong).
+
+CHANGES for BMA 3.16
+- replaced leaps() in bicreg() with regsubsets() to allow really.big = TRUE
+- removed deprecated \synopsis and updated man files accordingly
+
+CHANGES for BMA 3.15.3.2
+- removed call to .First.lib in zzz.R
+
+CHANGES for BMA 3.15.3.1
+- man examples faster run time
+- @stat --> @u
+
+CHANGES for BMA 3.15.3
+- added check for length(dropped) == 0 in bic.glm.data.frame and bic.glm.matrix
+  reported by Patrick Ball
+
+CHANGES for BMA 3.15.2
+- added drop = F to backsolve in glib.R (reported by Brian Ripley)
+
+CHANGES for BMA 3.15.1
+- fixed (1-r2/100) check for correlation in bicreg
+
+CHANGES for BMA 3.15
+- added predict functions for bicreg and bic.glm
+- explained use of OR.fix=Inf to avoid BIC approximation step in bic.glm
+
+CHANGES for BMA 3.14.1
+- changed handling of names for glm and cox output in iBMA for compatibility 
+  with R 2.14.0
+
+CHANGES for BMA 3.14
+- added drop = FALSE in bic.glm.R (reported by Hana Sevcikova)
+
+CHANGES for BMA 3.13
+- error in bicreg.R (reported by Kenneth Lo)
+
+CHANGES for BMA 3.12
+- error in iBMA.Rd (help file)
+
+CHANGES for BMA 3.11
+- fixed imageplot.bma to handle case where there is only one best model
+- fixed glib.matrix to handle Gaussian, identity case
+
+CHANGES for BMA 3.10
+- changed on of the examples for bic.surv to match changes made to the pbc data set in the survival package
+
+CHANGES for BMA 3.04-09
+- fixed summary.bicreg to handle univariate case
+- fixed problems in help files
+  For.MC3.REG.Rd, MC3.REG.Rd, glib.Rd and race.Rd
+
+CHANGES for BMA 3.03
+- fixed problem with imageplot colors
+
+- fixed overly long R statements in documentation
+
+- change in maintainer
+
+CHANGES for BMA 3.02
+- fixed problems in bic.glm that occurred when a two column response was specified for the binomial model, for example "cbind(y,n-y)~."
+
+- fixed problem in bicreg that could cause multiple models having posterior probability of 1 when very large in magnitude bic values occur
+
+- modified imageplot.bma
+    - changed color scheme so that variables with positive estimates appear as one color and variables with negative estimates occur as a different color.
+    - added options for ordering of variables (see documentation for details).
+
+- modified bicreg to return "mle" as a return parameter (equal to ols)
+
+- modified bicreg to work when only one model is selected
+
+- added methods for iterated BMA: iBMA.glm, iBMA.bicreg and iBMA.surv, together with summary and print functions for these methods, and a new graphic function 'orderplot'.
+

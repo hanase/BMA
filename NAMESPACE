@@ -1,0 +1,138 @@
+useDynLib(BMA)
+
+import(survival, leaps, robustbase, inline, rrcov)
+
+export(bicreg)
+
+S3method(print,bic.glm)
+S3method(print,bicreg)
+S3method(print,bic.surv)
+
+S3method(summary,bic.glm)
+S3method(summary,bicreg)
+S3method(summary,bic.surv)
+S3method(summary,glib)
+
+S3method(predict,bic.glm)
+S3method(predict,bicreg)
+
+S3method(plot,bic.glm)
+S3method(plot,bicreg)
+S3method(plot,bic.surv)
+
+S3method(bic.glm, data.frame)
+S3method(bic.glm, formula)
+S3method(bic.glm, matrix)
+
+export(bic.glm,
+       bic.glm.data.frame,
+       bic.glm.formula,
+       bic.glm.matrix)
+
+S3method(bic.surv, data.frame)
+S3method(bic.surv, formula)
+S3method(bic.surv, matrix)
+
+export(bic.surv,
+       bic.surv.data.frame,
+       bic.surv.formula,
+       bic.surv.matrix)
+
+S3method(as.bic.glm, glib)
+
+export(as.bic.glm,
+       as.bic.glm.glib)
+
+S3method(glib, data.frame)
+S3method(glib, matrix)
+S3method(glib, bic.glm)
+
+export(glib,
+       glib.data.frame,
+       glib.matrix,
+       glib.bic.glm)
+
+S3method(iBMA.bicreg, data.frame)
+S3method(iBMA.bicreg, matrix)
+S3method(iBMA.bicreg, iBMA.intermediate.bicreg)
+
+export(iBMA.bicreg,
+       iBMA.bicreg.data.frame,
+       iBMA.bicreg.matrix,
+       iBMA.bicreg.iBMA.intermediate.bicreg)
+
+S3method(iBMA.glm, data.frame)
+S3method(iBMA.glm, matrix)
+S3method(iBMA.glm, iBMA.intermediate.glm)
+
+export(iBMA.glm,
+       iBMA.glm.data.frame,
+       iBMA.glm.matrix,
+       iBMA.glm.iBMA.intermediate.glm)
+
+S3method(iBMA.surv, data.frame)
+S3method(iBMA.surv, matrix)
+S3method(iBMA.surv, iBMA.intermediate.surv)
+
+export(iBMA.surv,
+       iBMA.surv.data.frame,
+       iBMA.surv.matrix,
+       iBMA.surv.iBMA.intermediate.surv)
+
+S3method(print, iBMA.bicreg)
+S3method(print, iBMA.glm)
+S3method(print, iBMA.surv)
+       
+export(print.iBMA.bicreg, print.iBMA.glm, print.iBMA.surv)
+
+S3method(print, iBMA.intermediate.bicreg)
+S3method(print, iBMA.intermediate.glm)
+S3method(print, iBMA.intermediate.surv)
+
+export(print.iBMA.intermediate.surv,
+       print.iBMA.intermediate.bicreg,
+       print.iBMA.intermediate.glm)
+
+S3method(summary, iBMA.bicreg)
+S3method(summary, iBMA.glm)
+S3method(summary, iBMA.surv)
+
+export(summary.iBMA.bicreg, summary.iBMA.glm, summary.iBMA.surv)
+
+S3method(summary, iBMA.intermediate.bicreg)
+S3method(summary, iBMA.intermediate.glm)
+S3method(summary, iBMA.intermediate.surv)
+
+export(summary.iBMA.intermediate.surv,
+       summary.iBMA.intermediate.bicreg,
+       summary.iBMA.intermediate.glm)
+
+export(imageplot.bma) 
+
+S3method(orderplot, iBMA.bicreg)
+S3method(orderplot, iBMA.glm)
+S3method(orderplot, iBMA.surv)
+S3method(orderplot, iBMA.intermediate.bicreg)
+S3method(orderplot, iBMA.intermediate.glm)
+S3method(orderplot, iBMA.intermediate.surv)
+
+export(orderplot,
+       orderplot.iBMA.bicreg, 
+       orderplot.iBMA.glm, 
+       orderplot.iBMA.surv,
+       orderplot.iBMA.intermediate.bicreg,
+       orderplot.iBMA.intermediate.glm,
+       orderplot.iBMA.intermediate.surv)
+
+export(For.MC3.REG,
+       MC3.REG,
+       MC3.REG.choose,
+       MC3.REG.logpost,
+       out.ltsreg)
+
+S3method(print,mc3)
+S3method(summary,mc3)
+S3method("[",mc3)
+S3method(as.data.frame,mc3)
+
+
