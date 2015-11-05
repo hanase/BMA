@@ -9,6 +9,7 @@ Description: Package for Bayesian model averaging and variable selection for lin
         generalized linear models and survival models (cox
         regression).
 Depends: survival, leaps, robustbase, inline, rrcov
+Imports: methods
 Suggests: MASS, forward
 License: GPL (>= 2)
 URL: http://www.r-project.org,
