@@ -200,9 +200,11 @@ MC3.REG<- function(all.y, all.x, num.its, M0.var = NULL, M0.out = NULL, outs.lis
 
     colnames(var.matrix) <- var.names
 
+    # transform to avoid numerical problems if g$big.list[, 3] is highly negative
+    gstar <- g$big.list[, 3] - max(g$big.list[, 3])
 
-
-    postprob<- exp(g$big.list[, 3])/(sum(exp(g$big.list[, 3])))
+    postprob<- exp(gstar)/(sum(exp(gstar)))
+    
     visits <- g$big.list[, 4]
 
 
@@ -232,7 +234,6 @@ MC3.REG<- function(all.y, all.x, num.its, M0.var = NULL, M0.out = NULL, outs.lis
 		  n.models = length(postprob[ordr]),
 		  PI = PI, K=K, nu=nu, lambda=lambda, phi=phi,
 		  call = cl)
-
 
     class(result)<- "mc3"
     return(result)

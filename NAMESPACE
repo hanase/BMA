@@ -1,4 +1,4 @@
-useDynLib(BMA)
+useDynLib(BMA, .registration = TRUE)
 
 import(survival, leaps, robustbase, inline, rrcov)
 importFrom("graphics", "axis", "image", "lines", "par", "points")
