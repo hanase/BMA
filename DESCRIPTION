@@ -1,6 +1,6 @@
 Package: BMA
-Version: 3.18.7
-Date: 2017-05-11
+Version: 3.18.8
+Date: 2018-03-22
 Title: Bayesian Model Averaging
 Author: Adrian Raftery <raftery@uw.edu>, Jennifer Hoeting,
         Chris Volinsky, Ian Painter, Ka Yee Yeung
@@ -10,6 +10,6 @@ Description: Package for Bayesian model averaging and variable selection for lin
         regression).
 Depends: survival, leaps, robustbase, inline, rrcov
 Imports: methods
-Suggests: MASS, forward
+Suggests: MASS
 License: GPL (>= 2)
 URL: http://www.research.att.com/~volinsky/bma.html

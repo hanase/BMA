@@ -154,7 +154,6 @@ which is why these control parameters are F by default. }
 
 \dontrun{
 ### Finney data
-library(forward)
 data(vaso)
 x<- vaso[,1:2]
 y<- vaso[,3]

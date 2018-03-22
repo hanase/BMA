@@ -1,3 +1,7 @@
+3.18.8 (2018-03-22):
+- removed dependency on forward [requested by Luca Scrucca]
+    -> dataset vaso now included in BMA
+
 3.18.7 (2017-10-11):
 - fix in MC3.REG to avoid numerical issues when computing posterior probabilities
 [reported by Paponpat Taveeapiradeecharoen]
