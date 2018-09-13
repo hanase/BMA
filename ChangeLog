@@ -1,3 +1,6 @@
+3.18.9 (2018-09-07):
+- broken link to the BMA site fixed (thanks to Dieter Menne)
+
 3.18.8 (2018-03-22):
 - removed dependency on forward [requested by Luca Scrucca]
     -> dataset vaso now included in BMA
