@@ -100,7 +100,7 @@ function (x, surv.t, cens, strict = FALSE, OR = 20, maxCol = 30,
         while (length(cox.out$coefficients) > maxCol) {
             any.dropped <- TRUE
             dropcox <- drop1(cox.out, test = "Chisq")
-            dropped <- which.max(dropcox$"Pr(Chi)"[-1]) + 1
+            dropped <- which.max(dropcox$"Pr(>Chi)"[-1]) + 1
             x.coxph <- x.coxph[, -(dropped - 1)]
             designx.levels <- designx.levels[-dropped]
             designx <- designx[-dropped]
@@ -560,7 +560,7 @@ function (x, surv.t, cens, strict = FALSE, OR = 20, maxCol = 30,
         while (length(cox.out$coefficients) > maxCol) {
             any.dropped <- TRUE
             dropcox <- drop1(cox.out, test = "Chisq")
-            dropped <- which.max(dropcox$"Pr(Chi)"[-1]) + 1
+            dropped <- which.max(dropcox$"Pr(>Chi)"[-1]) + 1
             x.coxph <- x.coxph[, -(dropped - 1)]
             designx.levels <- designx.levels[-dropped]
             designx <- designx[-dropped]
