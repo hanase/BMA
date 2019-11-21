@@ -1,3 +1,6 @@
+3.18.11 (2019-11-21):
+- fix bug in computing SD in predict.bicreg (thanks to Anupreet Porwal)
+
 3.18.10 (2019-10-18):
 - fix bug in bic.surv causing crashes if maxCol < number of columns
   [reported by Andrea Bucci]

@@ -203,9 +203,12 @@ s"))
   predmean <- apply(object$postprob * linpred, 2, sum)
 
   objVARterm <- sum(object$postprob * object$residvar)
- 
+  
+  # 2019/11/21 Fix by Anupreet Porwal (original (predmean - linpred) 
+  # combined by columns instead by rows)
   predSD <- sqrt(objVARterm +
-                 apply(object$postprob * (predmean - linpred)^2, 2, sum))
+                 apply((predmean - t(linpred))^2, 1, weighted.mean, w = object$postprob))
+                # apply(object$postprob * (predmean - linpred)^2, 2, sum))
 
   predInt <- matrix( NA, nrow(newdata), length(quantiles))
   rownames(predInt) <- names(predmean) <- names(predSD) <- rownames(newdata)
