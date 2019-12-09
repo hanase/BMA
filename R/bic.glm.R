@@ -3,21 +3,23 @@ function (x, ...)
 UseMethod("bic.glm")
 
 "bic.glm.data.frame" <-
-function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE, 
-    prior.param = c(rep(0.5, ncol(x))), OR = 20, maxCol = 30, 
-    OR.fix = 2, nbest = 150, dispersion = NULL, factor.type = TRUE, 
-    factor.prior.adjust = FALSE, occam.window = TRUE, call = NULL, 
-    ...) 
+function (x, y, glm.family, wt = rep(1, nrow(x)), 
+    strict = FALSE, prior.param = c(rep(0.5, ncol(x))), 
+    OR = 20, maxCol = 30, OR.fix = 2, nbest = 150, 
+    dispersion = NULL, factor.type = TRUE, 
+    factor.prior.adjust = FALSE, occam.window = TRUE, 
+    call = NULL, ...) 
 {
 
     namx <- names(x)
 
     if (is.null(colnames(x))) colnames(x) <- 1:ncol(x)
 
-# this will add a suffix ".x" to the names to prevent duplicate names when
-# there are factors
+# this will add a suffix ".x" to the names to prevent 
+#    duplicate names when there are factors
 
-    LAST <- sapply(colnames(x), function(z) substring(z,nchar(z)))
+    LAST <- sapply(colnames(x), 
+                   function(z) substring(z,nchar(z)))
     m <- match(LAST,as.character(0:9),nomatch=0)
     pad <- ""
     if (any(m != 0)) {
@@ -30,7 +32,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     leaps.glm <- function(info, coef, names.arg, nbest = nbest) {
         names.arg <- names.arg
         if (is.null(names.arg)) 
-            names.arg <- c(as.character(1:9), LETTERS, letters)[1:ncol(info)]
+            names.arg <- c(as.character(1:9), LETTERS, 
+                           letters)[1:ncol(info)]
         if (length(names.arg) < ncol(info)) 
             stop("Too few names")
         bIb <- coef %*% info %*% coef
@@ -65,12 +68,14 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         nret <- mb * kx
         Subss <- rep(0, times = nret)
         RSS <- Subss
-        ans <- .Fortran("fwleaps", as.integer(nv), as.integer(it), 
-            as.integer(kx), as.integer(nf), as.integer(no), as.integer(1), 
-            as.double(2), as.integer(mb), as.double(rt), as.integer(nd), 
-            as.integer(nc), as.integer(iw), as.integer(nw), as.double(rw), 
-            as.integer(nr), as.double(t1), as.double(s2), as.integer(ne), 
-            as.integer(iv), as.double(Subss), as.double(RSS), 
+        ans <- .Fortran("fwleaps", as.integer(nv), 
+            as.integer(it), as.integer(kx), as.integer(nf), 
+            as.integer(no), as.integer(1), as.double(2), 
+            as.integer(mb), as.double(rt), as.integer(nd), 
+            as.integer(nc), as.integer(iw), as.integer(nw), 
+            as.double(rw), as.integer(nr), as.double(t1), 
+            as.double(s2), as.integer(ne), as.integer(iv), 
+            as.double(Subss), as.double(RSS), 
             as.integer(nret), PACKAGE = "BMA")
         regid <- ans[[21]]/2
         r2 <- ans[[20]]
@@ -79,17 +84,19 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         r2 <- r2[1:nreg]
         which <- matrix(TRUE, nreg, kx)
         z <- regid
-        which <- matrix(as.logical((rep.int(z, kx)%/%rep.int(2^((kx - 
-            1):0), rep.int(length(z), kx)))%%2), byrow = FALSE, 
-            ncol = kx)
+        which <- matrix(as.logical((rep.int(z, kx) %/% 
+                    rep.int(2^((kx - 1):0), 
+                    rep.int(length(z), kx)))%%2), 
+                    byrow = FALSE, ncol = kx)
         size <- which %*% rep(1, kx)
         label <- character(nreg)
         sep <- if (all(nchar(names.arg) == 1)) 
             ""
         else ","
-        for (i in 1:nreg) label[i] <- paste(names.arg[which[i, 
-            ]], collapse = sep)
-        ans <- list(r2 = r2, size = size, label = label, which = which)
+        for (i in 1:nreg) label[i] <- paste(names.arg[
+          which[i, ]], collapse = sep)
+        ans <- list(r2 = r2, size = size, label = label, 
+                    which = which)
         return(ans)
     }
 
@@ -126,16 +133,17 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         for (i in 1:nvar) if (isfac[i]) 
             nlevels[i] <- length(levels(x[, i]))
         any.dropped <- FALSE
-        mm <- model.matrix(terms.formula(~., data = x), data = x)
+        mm <- model.matrix(terms.formula(~., data = x), 
+                           data = x)
         designx <- attributes(mm)$assign
         n.designx <- length(designx)
         designx.levels <- rep(1, times = n.designx)
         for (i in 2:n.designx) if (isfac[designx[i]]) 
-            designx.levels[i] <- sum(designx[1:i] == designx[i]) + 
-               1
+            designx.levels[i] <- sum(designx[1:i] == 
+                      designx[i]) + 1
         x.df <- data.frame(x = x)
-        glm.out <- glm(y ~ ., family = glm.family, weights = wt, 
-            data = x.df)
+        glm.out <- glm(y ~ ., family = glm.family, 
+                weights = wt, data = x.df)
         glm.assign <- create.assign(x)
         while (length(glm.out$coefficients) > maxCol) {
             any.dropped <- TRUE
@@ -146,32 +154,35 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
             x.df <- x.df[, -(dropped - 1)]
             designx.levels <- designx.levels[-dropped]
             designx <- designx[-dropped]
-            glm.out <- glm(y ~ ., family = glm.family, weights = wt, 
-                data = x.df)
+            glm.out <- glm(y ~ ., family = glm.family, 
+                           weights = wt, data = x.df)
         }
         remaining.vars <- unique(designx[-1])
         new.nvar <- length(remaining.vars)
         dropped.vars <- vnames[-remaining.vars]
         dropped.levels <- NULL
         ncol.glm <- ncol(x.df) - 1
-        xx <- data.frame(matrix(rep(NA, times = new.nvar * nrow(x.df)), 
-            ncol = new.nvar))
+        xx <- data.frame(matrix(rep(NA, times = 
+                new.nvar * nrow(x.df)), ncol = new.nvar))
         colnames(xx) <- sapply(colnames(x.df), 
-                               function(s) substring(s,3,nchar(s)))
+              function(s) substring(s,3,nchar(s)))
         x.df <- x.df[-(ncol.glm + 1)]
         new.names = rep(NA, times = new.nvar)
         for (i in 1:new.nvar) {
             cvar <- remaining.vars[i]
             lvls <- designx.levels[cvar == designx]
             if (isfac[cvar]) {
-                if (length(lvls) != length(levels(x[, cvar]))) {
-                  newvar <- (as.matrix(x.df[, cvar == designx[-1]]) %*% 
-                    cbind(lvls - 1)) + 1
+                if (length(lvls) != length(levels(x[, cvar]))) 
+                  {
+                    newvar <- (as.matrix(x.df[, cvar == 
+                        designx[-1]]) %*% cbind(lvls - 1)) + 1
                   xx[, i] <- factor(levels(x[, cvar])[newvar])
                   new.names[i] <- vnames[cvar]
-                  removed.levels <- levels(x[, cvar])[-c(1, lvls)]
-                  dropped.levels <- c(dropped.levels, paste(vnames[cvar], 
-                    "_", removed.levels, sep = ""))
+                  removed.levels <- levels(x[, cvar])[
+                        -c(1, lvls)]
+                  dropped.levels <- c(dropped.levels, 
+                        paste(vnames[cvar], "_", 
+                              removed.levels, sep = ""))
                 }
                 else {
                   xx[, i] <- factor(x[, cvar])
@@ -184,8 +195,9 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
             }
         }
         dropped <- c(dropped.vars, dropped.levels)
-        return(list(mm = xx, any.dropped = any.dropped, dropped = dropped, 
-            var.names = new.names, remaining.vars = remaining.vars))
+        return(list(mm = xx, any.dropped = any.dropped, 
+            dropped = dropped, var.names = new.names, 
+            remaining.vars = remaining.vars))
     }
 
     if (is.null(call)) 
@@ -213,20 +225,23 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     fn <- factor.names(x)
     factors <- !all(unlist(lapply(fn, is.null)))
     x.df <- data.frame(x = x)
-    glm.out <- glm(y ~ ., family = glm.family, weights = wt, data = x.df)
+    glm.out <- glm(y ~ ., family = glm.family, 
+                   weights = wt, data = x.df)
     glm.assign <- create.assign(x)
     fac.levels <- unlist(lapply(glm.assign, length)[-1])
     varNames <- names.arg
+    cdf <- cbind.data.frame(y = y, x)
     if (factors) {
-# factors get turned into vectors in leaps.x using coefficient values
-        cdf <- cbind.data.frame(y = y, x)
-        ncoly <- if (is.null(dim(y))) 
-            1
-        else ncol(y)
-        mm <- model.matrix(formula(cdf), data = cdf)[, -(1:ncoly), 
-            drop = FALSE]
+# factors get turned into vectors in leaps.x 
+#      using coefficient values
+        ncoly <- if (is.null(dim(y))){
+          1
+        }else ncol(y)
+        mm <- model.matrix(formula(cdf), data = cdf)[, 
+                        -(1:ncoly), drop = FALSE]
         varNames <- colnames(mm)
-        mmm <- data.frame(matrix(mm, nrow = nrow(mm), byrow = FALSE))
+        mmm <- data.frame(matrix(mm, nrow = nrow(mm), 
+                                 byrow = FALSE))
         names(mmm) <- dimnames(mm)[[2]]
         output.names <- names(mmm)
         if (factor.type) { 
@@ -236,8 +251,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
                   coefs <- glm.out$coef[glm.assign[[i + 1]]]
                   old.vals <- x[, i]
                   new.vals <- c(0, coefs)
-                  new.vec <- as.vector(new.vals[match(old.vals, 
-                    fn[[i]])])
+                  new.vec <- as.vector(new.vals[match(
+                        old.vals, fn[[i]])])
                   leaps.x[, nx] <- new.vec
                 }
             }
@@ -249,8 +264,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
                 if (!is.null(fn[[i]])) {
                   k <- length(fn[[i]])
                   if (factor.prior.adjust) 
-                    addprior <- rep(1 - (1 - prior.param[i])^(1/(k - 
-                      1)), k - 1)
+                    addprior <- rep(1 - (1 - prior.param[i])^
+                            (1/(k - 1)), k - 1)
                   else addprior <- rep(prior.param[i], k - 1)
                 }
                 new.prior <- c(new.prior, addprior)
@@ -305,14 +320,15 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         resid <- resid * sqrt(wt)
         excl <- wt == 0
         if (any(excl)) {
-            warning(paste(sum(excl), "rows with zero wts not counted"))
+            warning(paste(sum(excl), 
+                    "rows with zero wts not counted"))
             resid <- resid[!excl]
         }
     }
     phihat <- sum(resid^2)/rdf
-    if (dispersion) 
+    if (dispersion) {
         disp <- phihat
-    else disp <- 1
+    } else disp <- 1
     coef <- glm.out$coef[-1]
     p <- glm.out$rank
     R <- glm.out$R
@@ -324,7 +340,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     cov <- correl * sigx %*% t(sigx)
     info <- solve(cov[-1, -1])
     if (ncol(x) > 2) {
-        a <- leaps.glm(info, coef, names.arg = names(leaps.x), 
+        a <- leaps.glm(info, coef, 
+                names.arg = names(leaps.x), 
             nbest = nbest)
         a$r2 <- pmin(pmax(0, a$r2), 0.999)
         a$r2 <- c(0, a$r2)
@@ -334,7 +351,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         nmod <- length(a$size)
         prior.mat <- matrix(rep(prior.param, nmod), nmod, ncol(x), 
             byrow = TRUE)
-        prior <- apply(a$which*prior.mat + (!a$which)*(1 - prior.mat), 1, prod)
+        prior <- apply(a$which*prior.mat + (!a$which)*(1 - 
+                                  prior.mat), 1, prod)
         bIb <- as.numeric(coef %*% info %*% coef)
         lrt <- bIb - (a$r2 * bIb)
         bic <- lrt + (a$size) * log(nobs) - 2 * log(prior)
@@ -348,19 +366,21 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     else {
         nmod <- switch(ncol(x), 2, 4)
         bic <- label <- rep(0, nmod)
-        which <- matrix(c(FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE), 
-                          nmod, nmod/2)
+        which <- matrix(c(FALSE, TRUE, FALSE, TRUE, 
+              FALSE, FALSE, TRUE, TRUE), nmod, nmod/2)
         size <- c(0, 1, 1, 2)[1:nmod]
-        sep <- if (all(nchar(names.arg) == 1)) 
+        sep <- if (all(nchar(names.arg) == 1)) {
             ""
-        else ","
-        prior.mat <- matrix(rep(prior.param, nmod), nmod, ncol(x), 
-            byrow = TRUE)
-        prior <- apply(which * prior.mat + (!which) * (1 - prior.mat), 1, prod)
+        } else ","
+        prior.mat <- matrix(rep(prior.param, nmod), nmod, 
+                  ncol(x), byrow = TRUE)
+        prior <- apply(which * prior.mat + (!which) * 
+                  (1 - prior.mat), 1, prod)
         for (k in 1:nmod) {
             if (k == 1) 
                 label[k] <- "NULL"
-            else label[k] <- paste(names.arg[which[k, ]], collapse = sep)
+            else label[k] <- paste(names.arg[which[k, ]],
+                                   collapse = sep)
         }
     }
     nmod <- length(label)
@@ -368,23 +388,27 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     dev <- rep(0, nmod)
     df <- rep(0, nmod)
     xdf <- x.df
-    colnames(xdf) <- sapply(colnames(xdf), function(s) substring(s,3,nchar(s)))
+    colnames(xdf) <- sapply(colnames(xdf), function(s) 
+          substring(s,3,nchar(s)))
     for (k in 1:nmod) {
         if (sum(which[k, ]) == 0) {
-            glm.out <- glm(y ~ 1, family = glm.family, weights = wt)
+            glm.out <- glm(y ~ 1, family = glm.family, 
+                           weights = wt)
         }
         else {
             x.df <- data.frame(x = x[, which[k, ], drop = F])
             if (ncol(x.df) != 1) {
               colnames(x.df) <- sapply(colnames(x.df), 
-                                  function(s) substring(s,3,nchar(s)))
+                      function(s) substring(s,3,nchar(s)))
             }
-            glm.out <- glm(y ~ ., data = x.df, family = glm.family, weights = wt)
+            glm.out <- glm(y ~ ., data = x.df, 
+                      family = glm.family, weights = wt)
         }
         dev[k] <- glm.out$deviance
         df[k] <- glm.out$df.residual
-        model.fits[[k]] <- matrix(0, nrow = length(glm.out$coef), 
-            ncol = 2, dimnames = list(names(glm.out$coef), NULL))
+        model.fits[[k]] <- matrix(0, nrow = 
+            length(glm.out$coef), ncol = 2, 
+            dimnames = list(names(glm.out$coef), NULL))
         model.fits[[k]][, 1] <- glm.out$coef
         coef <- glm.out$coef
         p <- glm.out$rank
@@ -409,7 +433,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     bic <- bic[occam]
     prior <- prior[occam]
     model.fits <- model.fits[occam]
-    postprob <- exp(-0.5 * (bic - min(bic)))/sum(exp(-0.5 * (bic - min(bic))))
+    postprob <- exp(-0.5 * (bic - min(bic)))/sum(exp(
+          -0.5 * (bic - min(bic))))
     order.bic <- order(bic, size, label)
     dev <- dev[order.bic]
     df <- df[order.bic]
@@ -450,10 +475,12 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         if (any(which[, i])) 
             for (k in (1:nmod)) if (which[k, i] == TRUE) {
                 spot <- sum(which[k, (1:i)])
-                posMk <- (c(0, cumsum(fac.levels[which[k, ]])) + 1)[spot]
+                posMk <- (c(0, cumsum(fac.levels[which[k, ]])) 
+                          + 1)[spot]
                 posMk <- posMk:(posMk + fac.levels[i] - 1) + 1
                 EbiMk[k, whereisit] <- model.fits[[k]][posMk, 1]
-                sebiMk[k, whereisit] <- model.fits[[k]][posMk, 2]
+                sebiMk[k, whereisit] <- model.fits[[k]][
+                      posMk, 2]
             }
     }
     for (k in 1:nmod) {
@@ -462,17 +489,19 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     }
     Ebi <- postprob %*% EbiMk
     Ebimat <- matrix(rep(Ebi, nmod), nrow = nmod, byrow = TRUE)
-    SDbi <- sqrt(postprob %*% (sebiMk^2) + postprob %*% ((EbiMk - Ebimat)^2))
+    SDbi <- sqrt(postprob %*% (sebiMk^2) + postprob %*% ((
+          EbiMk - Ebimat)^2))
     CEbi <- CSDbi <- rep(0, nvar)
     for (i in (1:ncol(x))) {
         sel <- which[, i]
         if (sum(sel) > 0) {
             cpp <- rbind(postprob[sel]/sum(postprob[sel]))
-            CEbi[glm.assign[[i + 1]]] <- as.numeric(cpp %*% EbiMk[sel, 
-                glm.assign[[i + 1]]])
-            CSDbi[glm.assign[[i + 1]]] <- sqrt(cpp %*% (sebiMk[sel, 
-                glm.assign[[i + 1]]]^2) + cpp %*% ((EbiMk[sel, 
-                glm.assign[[i + 1]]] - CEbi[glm.assign[[i + 1]]])^2))
+            CEbi[glm.assign[[i + 1]]] <- as.numeric(cpp %*%
+                    EbiMk[sel, glm.assign[[i + 1]]])
+            CSDbi[glm.assign[[i + 1]]] <- sqrt(cpp %*% (
+                sebiMk[sel, glm.assign[[i + 1]]]^2) + 
+                cpp %*% ((EbiMk[sel, glm.assign[[i + 1]]] -
+                          CEbi[glm.assign[[i + 1]]])^2))
         }
     }
     CSDbi[1] <- SDbi[1]
@@ -480,36 +509,45 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     names(output.names) <- var.names
     postmean <- as.vector(Ebi)
     varNames <- gsub("`", "", varNames)
-    if (pad != "") varNames <- sapply( varNames, function(z) substring(z,1,nchar(z)-2))
+    if (pad != "") varNames <- sapply( varNames, 
+                  function(z) substring(z,1,nchar(z)-2))
     names(varNames) <- NULL
-    colnames(EbiMk) <- names(postmean) <- c("(Intercept)", varNames)
+    colnames(EbiMk) <- names(postmean) <- 
+          c("(Intercept)", varNames)
     names(probne0) <- if (factor.type) {
-        if (!all(dropped == 0)) 
+        if (!all(dropped == 0)) {
             namx[-dropped]
-        else namx
+        } else namx
     }
     else varNames
     
-    result <- list(postprob = postprob, label = label, deviance = dev, 
-        size = size, bic = bic, prior.param = prior.param, 
+    result <- list(postprob = postprob, label = label, 
+        deviance = dev, size = size, bic = bic, 
+        prior.param = prior.param, 
         prior.model.weights = prior/prior.weight.denom, 
         family = famname, linkinv = linkinv, levels = LEVELS, 
-        disp = disp, which = which, probne0 = c(probne0), postmean = postmean, 
-        postsd = as.vector(SDbi), condpostmean = CEbi, condpostsd = CSDbi, 
-        mle = EbiMk, se = sebiMk, namesx = var.names, reduced = reduced, 
-        dropped = dropped, call = cl, n.models = length(postprob), 
+        disp = disp, which = which, probne0 = c(probne0),
+        postmean = postmean, 
+        postsd = as.vector(SDbi), 
+        condpostmean = CEbi, condpostsd = CSDbi, 
+        mle = EbiMk, se = sebiMk, namesx = var.names, 
+        reduced = reduced, dropped = dropped, call = cl, 
+        n.models = length(postprob), 
         n.vars = length(probne0), nests = length(Ebi), 
         output.names = output.names, 
-        assign = glm.assign, factor.type = factor.type, design = leaps.x, 
-        x = x, y = y)
+        assign = glm.assign, factor.type = factor.type, 
+        design = leaps.x, x = x, y = y, 
+        formula = formula(cdf))
     class(result) <- "bic.glm"
     result
 }
 
 "bic.glm.formula" <-
-function (f, data, glm.family, wt = rep(1, nrow(data)), strict = FALSE, 
+function (f, data, glm.family, wt = rep(1, nrow(data)), 
+    strict = FALSE, 
     prior.param = c(rep(0.5, ncol(x))), OR = 20, maxCol = 30, 
-    OR.fix = 2, nbest = 150, dispersion = NULL, factor.type = TRUE, 
+    OR.fix = 2, nbest = 150, dispersion = NULL, 
+    factor.type = TRUE, 
     factor.prior.adjust = FALSE, occam.window = TRUE, ...) 
 {
     cl <- match.call()
@@ -521,7 +559,8 @@ function (f, data, glm.family, wt = rep(1, nrow(data)), strict = FALSE,
 ############################################################################
 ## change to facilitate predict 10/2011 CF
 #   tms.labels <- colnames(mm) 
-#   if (tms.labels[1] == "(Intercept)") tms.labels <- tms.labels[-1]
+#   if (tms.labels[1] == "(Intercept)") tms.labels <- 
+#        tms.labels[-1]
 ############################################################################
     assn <- attr(mm, "assign")
     nterms <- max(assn)
@@ -571,14 +610,16 @@ function (f, data, glm.family, wt = rep(1, nrow(data)), strict = FALSE,
 ##  colnames(moddata) <- c(cnames)
     colnames(moddata) <- cnames
 ########################################################################
-# caution: at least x needs to be assigned before the call (don't know why) CF
+# caution: at least x needs to be assigned before the call 
+#    (don't know why) CF
     y <- datalist[[1]]
     if (!is.null(dim(y))) {
       ncases <- apply( y, 1, sum)
       index <- rep( 1:nrow(y), ncases)
       x <- moddata[index,]
       wt <- wt[index]
-      y <- as.vector(apply( y, 1, function(n) c(rep(0,n[1]),rep(1,n[2]))))
+      y <- as.vector(apply( y, 1, function(n) c(rep(0,n[1]),
+                                          rep(1,n[2]))))
     }
     else {
       x <- moddata
@@ -586,7 +627,8 @@ function (f, data, glm.family, wt = rep(1, nrow(data)), strict = FALSE,
     result <- bic.glm(x=x, y=y, 
         glm.family, wt = wt, strict = FALSE, 
         prior.param = prior.param, 
-        OR = OR, maxCol = maxCol, OR.fix = OR.fix, nbest = nbest, 
+        OR = OR, maxCol = maxCol, OR.fix = OR.fix, 
+        nbest = nbest, 
         dispersion = dispersion, factor.type = factor.type, 
         factor.prior.adjust = factor.prior.adjust, 
         occam.window = occam.window, call = cl)
@@ -601,16 +643,19 @@ function (f, data, glm.family, wt = rep(1, nrow(data)), strict = FALSE,
 }
 
 bic.glm.matrix <-
-function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE, 
+function (x, y, glm.family, wt = rep(1, nrow(x)), 
+    strict = FALSE, 
     prior.param = c(rep(0.5, ncol(x))), OR = 20, maxCol = 30, 
-    OR.fix = 2, nbest = 150, dispersion = NULL, factor.type = TRUE, 
-    factor.prior.adjust = FALSE, occam.window = TRUE, call = NULL, 
-    ...) 
+    OR.fix = 2, nbest = 150, dispersion = NULL, 
+    factor.type = TRUE, 
+    factor.prior.adjust = FALSE, occam.window = TRUE, 
+    call = NULL, ...) 
 {
     leaps.glm <- function(info, coef, names.arg, nbest = nbest) {
         names.arg <- names.arg
         if (is.null(names.arg)) 
-            names.arg <- c(as.character(1:9), LETTERS, letters)[1:ncol(info)]
+            names.arg <- c(as.character(1:9), LETTERS, 
+                           letters)[1:ncol(info)]
         if (length(names.arg) < ncol(info)) 
             stop("Too few names")
         bIb <- coef %*% info %*% coef
@@ -645,11 +690,16 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         nret <- mb * kx
         Subss <- rep(0, times = nret)
         RSS <- Subss
-        ans <- .Fortran("fwleaps", as.integer(nv), as.integer(it), 
-            as.integer(kx), as.integer(nf), as.integer(no), as.integer(1), 
-            as.double(2), as.integer(mb), as.double(rt), as.integer(nd), 
-            as.integer(nc), as.integer(iw), as.integer(nw), as.double(rw), 
-            as.integer(nr), as.double(t1), as.double(s2), as.integer(ne), 
+        ans <- .Fortran("fwleaps", as.integer(nv), 
+            as.integer(it), 
+            as.integer(kx), as.integer(nf), as.integer(no), 
+            as.integer(1), 
+            as.double(2), as.integer(mb), as.double(rt), 
+            as.integer(nd), 
+            as.integer(nc), as.integer(iw), as.integer(nw), 
+            as.double(rw), 
+            as.integer(nr), as.double(t1), as.double(s2), 
+            as.integer(ne), 
             as.integer(iv), as.double(Subss), as.double(RSS), 
             as.integer(nret), PACKAGE = "BMA")
         regid <- ans[[21]]/2
@@ -659,17 +709,19 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         r2 <- r2[1:nreg]
         which <- matrix(TRUE, nreg, kx)
         z <- regid
-        which <- matrix(as.logical((rep.int(z, kx)%/%rep.int(2^((kx - 
-            1):0), rep.int(length(z), kx)))%%2), byrow = FALSE, 
+        which <- matrix(as.logical((rep.int(z, kx) %/% 
+            rep.int(2^((kx - 1):0), 
+            rep.int(length(z), kx)))%%2), byrow = FALSE, 
             ncol = kx)
         size <- which %*% rep(1, kx)
         label <- character(nreg)
-        sep <- if (all(nchar(names.arg) == 1)) 
+        sep <- if (all(nchar(names.arg) == 1)){ 
             ""
-        else ","
-        for (i in 1:nreg) label[i] <- paste(names.arg[which[i, 
-            ]], collapse = sep)
-        ans <- list(r2 = r2, size = size, label = label, which = which)
+        } else ","
+        for (i in 1:nreg) label[i] <- paste(names.arg[
+          which[i, ]], collapse = sep)
+        ans <- list(r2 = r2, size = size, label = label, 
+                    which = which)
         return(ans)
     }
     factor.names <- function(x) {
@@ -703,16 +755,17 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         for (i in 1:nvar) if (isfac[i]) 
             nlevels[i] <- length(levels(x[, i]))
         any.dropped <- FALSE
-        mm <- model.matrix(terms.formula(~., data = x), data = x)
+        mm <- model.matrix(terms.formula(~., data = x), 
+                           data = x)
         designx <- attributes(mm)$assign
         n.designx <- length(designx)
         designx.levels <- rep(1, times = n.designx)
         for (i in 2:n.designx) if (isfac[designx[i]]) 
-            designx.levels[i] <- sum(designx[1:i] == designx[i]) + 
-                1
+            designx.levels[i] <- sum(designx[1:i] == 
+                              designx[i]) + 1
         x.df <- data.frame(x = x)
-        glm.out <- glm(y ~ ., family = glm.family, weights = wt, 
-            data = x.df)
+        glm.out <- glm(y ~ ., family = glm.family, 
+                       weights = wt, data = x.df)
         glm.assign <- create.assign(x)
         while (length(glm.out$coefficients) > maxCol) {
             any.dropped <- TRUE
@@ -723,8 +776,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
             x.df <- x.df[, -(dropped - 1)]
             designx.levels <- designx.levels[-dropped]
             designx <- designx[-dropped]
-            glm.out <- glm(y ~ ., family = glm.family, weights = wt, 
-                data = x.df)
+            glm.out <- glm(y ~ ., family = glm.family, 
+                           weights = wt, data = x.df)
         }
         remaining.vars <- unique(designx[-1])
         new.nvar <- length(remaining.vars)
@@ -732,21 +785,23 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         dropped.levels <- NULL
         ncol.glm <- ncol(x.df) - 1
         x.df <- x.df[-(ncol.glm + 1)]
-        xx <- data.frame(matrix(rep(NA, times = new.nvar * nrow(x.df)), 
-            ncol = new.nvar))
+        xx <- data.frame(matrix(rep(NA, times = 
+                new.nvar * nrow(x.df)), ncol = new.nvar))
         new.names = rep(NA, times = new.nvar)
         for (i in 1:new.nvar) {
             cvar <- remaining.vars[i]
             lvls <- designx.levels[cvar == designx]
             if (isfac[cvar]) {
                 if (length(lvls) != length(levels(x[, cvar]))) {
-                  newvar <- (as.matrix(x.df[, cvar == designx[-1]]) %*% 
-                    cbind(lvls - 1)) + 1
+                  newvar <- (as.matrix(x.df[, cvar == 
+                      designx[-1]]) %*% cbind(lvls - 1)) + 1
                   xx[, i] <- factor(levels(x[, cvar])[newvar])
                   new.names[i] <- vnames[cvar]
-                  removed.levels <- levels(x[, cvar])[-c(1, lvls)]
-                  dropped.levels <- c(dropped.levels, paste(vnames[cvar], 
-                    "_", removed.levels, sep = ""))
+                  removed.levels <- levels(x[, cvar])[
+                    -c(1, lvls)]
+                  dropped.levels <- c(dropped.levels, 
+                      paste(vnames[cvar], 
+                        "_", removed.levels, sep = ""))
                 }
                 else {
                   xx[, i] <- factor(x[, cvar])
@@ -759,8 +814,9 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
             }
         }
         dropped <- c(dropped.vars, dropped.levels)
-        return(list(mm = xx, any.dropped = any.dropped, dropped = dropped, 
-            var.names = new.names, remaining.vars = remaining.vars))
+        return(list(mm = xx, any.dropped = any.dropped, 
+            dropped = dropped, var.names = new.names, 
+            remaining.vars = remaining.vars))
     }
     if (is.null(call)) 
         cl <- match.call()
@@ -789,10 +845,12 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         data = x.df)
     glm.assign <- create.assign(x)
     fac.levels <- unlist(lapply(glm.assign, length)[-1])
+    cdf <- cbind.data.frame(y = y, x)
     if (factors) {
-        cdf <- cbind.data.frame(y = y, x)
-        mm <- model.matrix(formula(cdf), data = cdf)[, -1, drop = FALSE]
-        mmm <- data.frame(matrix(mm, nrow = nrow(mm), byrow = FALSE))
+        mm <- model.matrix(formula(cdf), data = cdf)[, -1, 
+                                        drop = FALSE]
+        mmm <- data.frame(matrix(mm, nrow = nrow(mm), 
+                                 byrow = FALSE))
         names(mmm) <- dimnames(mm)[[2]]
         output.names <- names(mmm)
         if (factor.type) {
@@ -815,8 +873,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
                 if (!is.null(fn[[i]])) {
                   k <- length(fn[[i]])
                   if (factor.prior.adjust) 
-                    addprior <- rep(1 - (1 - prior.param[i])^(1/(k - 
-                      1)), k - 1)
+                    addprior <- rep(1 - (1 - 
+                          prior.param[i])^(1/(k - 1)), k - 1)
                   else addprior <- rep(prior.param[i], k - 1)
                 }
                 new.prior <- c(new.prior, addprior)
@@ -873,14 +931,15 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         resid <- resid * sqrt(wt)
         excl <- wt == 0
         if (any(excl)) {
-            warning(paste(sum(excl), "rows with zero wts not counted"))
+            warning(paste(sum(excl), 
+                      "rows with zero wts not counted"))
             resid <- resid[!excl]
         }
     }
     phihat <- sum(resid^2)/rdf
-    if (dispersion) 
+    if (dispersion) {
         disp <- phihat
-    else disp <- 1
+    } else disp <- 1
     coef <- glm.out$coef[-1]
     p <- glm.out$rank
     R <- glm.out$R
@@ -900,10 +959,11 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         a$label <- c("NULL", a$label)
         a$which <- rbind(rep(FALSE, ncol(x)), a$which)
         nmod <- length(a$size)
-        prior.mat <- matrix(rep(prior.param, nmod), nmod, ncol(leaps.x), 
+        prior.mat <- matrix(rep(prior.param, nmod), nmod, 
+                            ncol(leaps.x), 
             byrow = TRUE)
-        prior <- apply(a$which * prior.mat + (!a$which) * (1 - 
-            prior.mat), 1, prod)
+        prior <- apply(a$which * prior.mat + (!a$which) * 
+                         (1 - prior.mat), 1, prod)
         bIb <- as.numeric(coef %*% info %*% coef)
         lrt <- bIb - (a$r2 * bIb)
         bic <- lrt + (a$size) * log(nobs) - 2 * log(prior)
@@ -917,20 +977,21 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     else {
         nmod <- switch(ncol(x), 2, 4)
         bic <- label <- rep(0, nmod)
-        which <- matrix(c(FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, 
-            TRUE, TRUE), nmod, nmod/2)
+        which <- matrix(c(FALSE, TRUE, FALSE, TRUE, 
+              FALSE, FALSE, TRUE, TRUE), nmod, nmod/2)
         size <- c(0, 1, 1, 2)[1:nmod]
-        sep <- if (all(nchar(names.arg) == 1)) 
+        sep <- if (all(nchar(names.arg) == 1)) {
             ""
-        else ","
-        prior.mat <- matrix(rep(prior.param, nmod), nmod, ncol(x), 
-            byrow = TRUE)
-        prior <- apply(which * prior.mat + (!which) * (1 - prior.mat), 
-            1, prod)
+        } else ","
+        prior.mat <- matrix(rep(prior.param, nmod), nmod, 
+                  ncol(x), byrow = TRUE)
+        prior <- apply(which * prior.mat + (!which) * 
+                  (1 - prior.mat), 1, prod)
         for (k in 1:nmod) {
             if (k == 1) 
                 label[k] <- "NULL"
-            else label[k] <- paste(names.arg[which[k, ]], collapse = sep)
+            else label[k] <- paste(names.arg[which[k, ]],
+                collapse = sep)
         }
     }
     nmod <- length(label)
@@ -939,17 +1000,18 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     df <- rep(0, nmod)
     for (k in 1:nmod) {
         if (sum(which[k, ]) == 0) {
-            glm.out <- glm(y ~ 1, family = glm.family, weights = wt)
+            glm.out <- glm(y ~ 1, family = glm.family, 
+                           weights = wt)
         }
         else {
             x.df <- data.frame(x = x[, which[k, ]])
-            glm.out <- glm(y ~ ., data = x.df, family = glm.family, 
-                weights = wt)
+            glm.out <- glm(y ~ ., data = x.df, 
+                family = glm.family, weights = wt)
         }
         dev[k] <- glm.out$deviance
         df[k] <- glm.out$df.residual
-        model.fits[[k]] <- matrix(0, nrow = length(glm.out$coef), 
-            ncol = 2)
+        model.fits[[k]] <- matrix(0, nrow = 
+                  length(glm.out$coef), ncol = 2)
         model.fits[[k]][, 1] <- glm.out$coef
         coef <- glm.out$coef
         p <- glm.out$rank
@@ -1019,14 +1081,14 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         if (any(which[, i])) 
             for (k in (1:nmod)) if (which[k, i] == TRUE) {
                 spot <- sum(which[k, (1:i)])
-                posMk <- (c(0, cumsum(fac.levels[which[k, ]])) + 
-                  1)[spot]
-                posMk <- posMk:(posMk + fac.levels[i] - 1) + 
-                  1
-                EbiMk[k, whereisit] <- model.fits[[k]][posMk, 
-                  1]
-                sebiMk[k, whereisit] <- model.fits[[k]][posMk, 
-                  2]
+                posMk <- (c(0, cumsum(fac.levels[which[k, ]])) 
+                          + 1)[spot]
+                posMk <- (posMk:(posMk + fac.levels[i] - 1) 
+                          + 1)
+                EbiMk[k, whereisit] <- model.fits[[k]][
+                        posMk, 1]
+                sebiMk[k, whereisit] <- model.fits[[k]][
+                        posMk, 2]
             }
     }
     for (k in 1:nmod) {
@@ -1035,35 +1097,47 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
     }
     Ebi <- postprob %*% EbiMk
     Ebimat <- matrix(rep(Ebi, nmod), nrow = nmod, byrow = TRUE)
-    SDbi <- sqrt(postprob %*% (sebiMk^2) + postprob %*% ((EbiMk - 
-        Ebimat)^2))
+    SDbi <- sqrt(postprob %*% (sebiMk^2) + postprob %*% ((
+          EbiMk - Ebimat)^2))
     CSDbi <- rep(0, nvar)
     CEbi <- CSDbi
     for (i in (1:ncol(x))) {
         sel <- which[, i]
         if (sum(sel) > 0) {
             cpp <- rbind(postprob[sel]/sum(postprob[sel]))
-            CEbi[glm.assign[[i + 1]]] <- as.numeric(cpp %*% EbiMk[sel, 
+            CEbi[glm.assign[[i + 1]]] <- 
+              as.numeric(cpp %*% EbiMk[sel, 
                 glm.assign[[i + 1]]])
-            CSDbi[glm.assign[[i + 1]]] <- sqrt(cpp %*% (sebiMk[sel, 
-                glm.assign[[i + 1]]]^2) + cpp %*% ((EbiMk[sel, 
-                glm.assign[[i + 1]]] - CEbi[glm.assign[[i + 1]]])^2))
+            CSDbi[glm.assign[[i + 1]]] <- sqrt(cpp %*% 
+                (sebiMk[sel, glm.assign[[i + 1]]]^2) + 
+                  cpp %*% ((EbiMk[sel, glm.assign[[i + 1]]] -
+                            CEbi[glm.assign[[i + 1]]])^2))
         }
     }
     CSDbi[1] <- SDbi[1]
     CEbi[1] <- Ebi[1]
     names(output.names) <- var.names
-    result <- list(postprob = postprob, label = label, deviance = dev, 
-        size = size, bic = bic, prior.param = prior.param, prior.model.weights
-                   = prior/prior.weight.denom, 
+#   Needed only to standardize output 
+#   between different methods
+    x <- as.data.frame(x)
+    LEVELS <- lapply(x, levels)
+#    
+    result <- list(postprob = postprob, label = label, 
+        deviance = dev, size = size, bic = bic, 
+        prior.param = prior.param, 
+        prior.model.weights = prior/prior.weight.denom, 
         family = famname, linkinv = linkinv, 
+        levels = LEVELS, 
         disp = disp, which = which, probne0 = c(probne0), 
         postmean = as.vector(Ebi), postsd = as.vector(SDbi), 
         condpostmean = CEbi, condpostsd = CSDbi, mle = EbiMk, 
-        se = sebiMk, namesx = var.names, reduced = reduced, dropped = dropped, 
-        call = cl, n.models = length(postprob), n.vars = length(probne0), 
-        nests = length(Ebi), output.names = output.names, assign = glm.assign, 
-        factor.type = factor.type, design = leaps.x, x = x, y = y)
+        se = sebiMk, namesx = var.names, reduced = reduced,
+        dropped = dropped, call = cl, 
+        n.models = length(postprob), n.vars = length(probne0), 
+        nests = length(Ebi), output.names = output.names, 
+        assign = glm.assign, factor.type = factor.type, 
+        design = leaps.x, x = x, y = y, 
+        formula = formula(cdf))
     class(result) <- "bic.glm"
     result
 }
