@@ -33,59 +33,87 @@ bic.glm(x, ...)
   \item{x}{a matrix or data.frame of independent variables.}
   \item{y}{a vector of values for the dependent variable.}
   \item{f}{a formula}
-  \item{data}{a data frame containing the variables in the model. }
-  \item{glm.family}{a description of the error distribution and link function to
-            be used in the model.  This can be a character string naming a
-            family function, a family function or the result of a call to
-            a family function.  (See 'family' for details of family
-            functions.)}
+  \item{data}{
+    a data frame containing the variables in the model. 
+  }
+  \item{glm.family}{
+    a description of the error distribution and link
+    function to be used in the model.  This can be a 
+    character string naming a family function, a family 
+    function or the result of a call to a family function.  
+    (See 'family' for details of family functions.)
+  }
   \item{wt}{an optional vector of weights to be used.}
-  \item{strict}{a logical indicating whether models with more likely submodels are 
-    eliminated. \code{FALSE} returns all models whose posterior model probability is
-     within a factor of \code{1/OR} of that of the best model.}
-  \item{prior.param}{a vector of values specifying the prior weights for each variable.}
-  \item{OR}{ a number specifying the maximum ratio for excluding models in Occam's window }
-  \item{maxCol}{a number specifying the maximum number of columns in design matrix 
-                (excluding intercept) to be kept. }
-  \item{OR.fix}{width of the window which keeps models after the leaps approximation
-                is done.  
-                Because the leaps and bounds gives only an approximation to BIC, 
-                there is a need to increase the window at this first "cut" so as to 
-                assure that no good models are deleted. 
-                The level of this cut is at \code{1/(OR^OR.fix)}; the default value 
-                for \code{OR.fix} is 2.}
-  \item{nbest}{a number specifying the number of models of each size returned to 
-       \code{bic.glm} by the modified leaps algorithm.}
-  \item{dispersion}{a logical value specifying whether dispersion should be 
-        estimated or not. Default is \code{TRUE} unless glm.family is poisson 
-        or binomial}
-  \item{factor.type}{a logical value specifying how variables of class "factor" are 
-        handled. 
-        A factor variable with d levels is turned into (d-1) dummy variables using a
-         treatment contrast.  
-        If \code{factor.type = TRUE}, models will contain either all or none of 
-        these dummy variables.  
-        If \code{factor.type = FALSE}, models are free  to select the dummy 
-        variables independently.  
-        In this case, factor.prior.adjust determines the prior on these variables.}
-  \item{factor.prior.adjust}{a logical value specifying whether 
-        the prior distribution on dummy variables for factors 
-        should be adjusted when \code{factor.type=FALSE}.
-        When \code{factor.prior.adjust=FALSE}, all dummy variables 
-        for variable \code{i} have prior equal to \code{prior.param[i]}.
-        Note that this makes the prior probability of the union of these variables 
-        much higher than \code{prior.param[i]}.  
-        Setting \code{factor.prior.adjust=T} corrects for this so that the union of 
-        the dummies equals \code{prior.param[i]}
-        (and hence the deletion of the factor has a prior of 
-        \code{1-prior.param[i]}).  
-        This adjustment changes the individual priors on each dummy variable to '
-        \code{1-(1-pp[i])^(1/(k+1))}.}
-  \item{occam.window}{a logical value specifying if Occam's window should be used. 
-        If set to \code{FALSE} then all models selected by the modified leaps 
-        algorithm are returned.}
-      \item{call}{used internally}
-\item{...}{unused}
+  \item{strict}{
+    a logical indicating whether models with 
+    more likely submodels are eliminated. \code{FALSE} 
+    returns all models whose posterior model probability 
+    is within a factor of \code{1/OR} of that of the best model.
+  }
+  \item{prior.param}{
+    a vector of values specifying the prior weights for
+    each variable.
+  }
+  \item{OR}{ 
+    a number specifying the maximum ratio for excluding models in
+    Occam's window 
+  }
+  \item{maxCol}{
+    a number specifying the maximum number of 
+    columns in design matrix (excluding intercept) to be kept. 
+  }
+  \item{OR.fix}{
+    width of the window which keeps models after the leaps
+    approximation is done.  Because the leaps and bounds 
+    gives only an approximation to BIC, there is a need to
+    increase the window at this first "cut" so as to assure 
+    that no good models are deleted. The level of this cut is 
+    at \code{1/(OR^OR.fix)}; the default value 
+    for \code{OR.fix} is 2.
+  }
+  \item{nbest}{
+    a number specifying the number of models of each size
+    returned to \code{bic.glm} by the modified leaps algorithm.
+  }
+  \item{dispersion}{
+    a logical value specifying whether dispersion should 
+    be estimated or not. Default is \code{TRUE} unless 
+    glm.family is poisson or binomial
+  }
+  \item{factor.type}{
+    a logical value specifying how variables of class
+    "factor" are handled. A factor variable with d levels 
+    is turned into (d-1) dummy variables using a treatment
+    contrast.  If \code{factor.type = TRUE}, models will 
+    contain either all or none of these dummy variables.  If
+    \code{factor.type = FALSE}, models are free  to select 
+    the dummy variables independently.  In this case, 
+    \code{factor.prior.adjust} determines the prior on these
+    variables.
+  }
+  \item{factor.prior.adjust}{
+    a logical value specifying whether 
+    the prior distribution on dummy variables for factors 
+    should be adjusted when \code{factor.type=FALSE}.
+    When \code{factor.prior.adjust=FALSE}, all dummy variables 
+    for variable \code{i} have prior equal to 
+    \code{prior.param[i]}.  Note that this makes the prior
+    probability of the union of these variables much higher 
+    than \code{prior.param[i]}.  Setting 
+    \code{factor.prior.adjust=T} corrects for this so that 
+    the union of the dummies equals \code{prior.param[i]}
+    (and hence the deletion of the factor has a prior of 
+    \code{1-prior.param[i]}).  This adjustment changes the
+    individual priors on each dummy variable to 
+    '\code{1-(1-pp[i])^(1/(k+1))}.
+  }
+  \item{occam.window}{
+    a logical value specifying if Occam's window should 
+    be used. If set to \code{FALSE} then all models selected 
+    by the modified leaps algorithm are returned.
+  }
+  \item{call}{used internally}
+  \item{...}{unused}
 }
 \details{
 Bayesian Model Averaging accounts for the model uncertainty inherent in the variable selection problem by averaging over the best models in the model class according to approximate posterior model probability.  
@@ -99,22 +127,118 @@ The function \code{imageplot} generates an image of the models which were averag
 
 An object of class \code{bic.glm} is a list containing at least the following components:
 
-  \item{postprob}{the posterior probabilities of the models selected}
-  \item{deviance}{the estimated model deviances}
+  \item{postprob}{
+    the posterior probabilities of the models selected
+  }
   \item{label}{labels identifying the models selected}
+  \item{deviance}{the estimated model deviances}
+  \item{size}{the number of independent variables in each of 
+    the models
+  }
   \item{bic}{values of BIC for the models}
-  \item{size}{the number of independent variables in each of the models}
-  \item{which}{a logical matrix with one row per model and one column per variable indicating whether that variable is in the model}
-  \item{probne0}{the posterior probability that each variable is non-zero (in percent)}
-  \item{postmean}{the posterior mean of each coefficient (from model averaging)}
-  \item{postsd}{the posterior standard deviation of each coefficient (from model averaging) }
-  \item{condpostmean}{the posterior mean of each coefficient conditional on the variable being included in the model}
-  \item{condpostsd}{the posterior standard deviation of each coefficient conditional on the variable being included in the model}
-  \item{mle}{matrix with one row per model and one column per variable giving the maximum likelihood estimate of each coefficient for each model}
-  \item{se}{matrix with one row per model and one column per variable giving the standard error of each coefficient for each model}
-  \item{reduced}{a logical indicating whether any variables were dropped before model averaging}
-  \item{dropped}{a vector containing the names of those variables dropped before model averaging}
-  \item{call}{the matched call that created the bma.lm object}
+  \item{prior.param}{a vector of values specifying the 
+    prior weights for each variable.
+  }
+  \item{prior.model.weights}{
+    relative prior weights for the different models 
+    considered in the \code{bic.glm} output
+  }
+  \item{family}{\code{glm.family} (as class character)}
+  \item{linkinv}{inverse link function}
+  \item{levels}{
+    a list with one component for each variable 
+    (or column of \code{x}) giving the names of 
+    all levels for \code{factor}s and \code{NULL}
+    otherwise.  
+  }
+  \item{disp}{
+    \code{numeric} dispersion estimate of length 1:  
+    if(dispersion) {
+      estimated variance of Pearson residuals = 
+      sum of weighted squares of Pearson residuals 
+      for the max model divided by residual 
+      degrees of freedom 
+    } else 1 
+  }
+  \item{which}{
+    a logical matrix with one row per model and one column 
+    per variable indicating whether that variable is in 
+    the model
+  }
+  \item{probne0}{
+    the posterior probability that each variable is non-zero 
+    (in percent)
+  }
+  \item{postmean}{
+    the posterior mean of each coefficient 
+    (from model averaging)
+  }
+  \item{postsd}{
+    the posterior standard deviation of each coefficient 
+    (from model averaging) 
+  }
+  \item{condpostmean}{
+    the posterior mean of each coefficient conditional 
+    on the variable being included in the model
+  }
+  \item{condpostsd}{
+    the posterior standard deviation of each coefficient
+    conditional on the variable being included in the model
+  }
+  \item{mle}{
+    matrix with one row per model and one column per 
+    variable giving the maximum likelihood estimate of 
+    each coefficient for each model
+  }
+  \item{se}{
+    matrix with one row per model and one column per 
+    variable giving the standard error of each coefficient 
+    for each model
+  }
+  \item{namesx}{variable names}
+  \item{reduced}{
+    a logical indicating whether any variables were 
+    dropped before model averaging
+  }
+  \item{dropped}{
+    a vector containing the names of those variables 
+    dropped before model averaging
+  }
+  \item{call}{
+    the matched call that created the bma.lm object
+  }
+  \item{n.models}{number of models}
+  \item{n.vars}{number of variables}
+  \item{nests}{
+    number of estimated parameters
+  }
+  \item{output.names}{
+    list with one component for each variable 
+    giving the names of the levels of 
+    \code{factors} or \code{NA} for 
+    non-factors.  
+  }
+  \item{assign}{
+    list of numeric or integer vectors of 
+    length = 1 more than the number of variables 
+    giving the indices to translate between variables 
+    and parameters estimated.  
+  }
+  \item{factor.type}{
+    \code{factor.type} argument 
+  }
+  \item{design}{
+    if(factor.type){
+      
+      ????
+      
+    } else model.matrix
+  }
+  \item{x}{x = input explanitory variables}
+  \item{y}{y = input response variable}
+  \item{formula}{
+    formula supplied or imputed from (x, y).  
+  }
 }
 
 \references{ Raftery, Adrian E. (1995). Bayesian model selection in social research (with Discussion). Sociological Methodology 1995 (Peter V. Marsden, ed.), pp. 111-196, Cambridge, Mass.: Blackwells. 
@@ -195,8 +319,8 @@ sel<- veteran$status == 0
 x<- x[!sel,]
 surv.t<- surv.t[!sel]
 
-glm.out.va <- bic.glm(x, y=surv.t, glm.family=Gamma(link="inverse"),
-    factor.type=FALSE)
+glm.out.va <- bic.glm(x, y=surv.t, 
+    glm.family=Gamma(link="inverse"), factor.type=FALSE)
 summary(glm.out.va)
 imageplot.bma(glm.out.va)
 plot(glm.out.va)
@@ -226,13 +350,14 @@ summary(glm.out.yates)
 ### Gaussian
 library(MASS)
 data(UScrime)
-f <- formula(log(y) ~  log(M)+So+log(Ed)+log(Po1)+log(Po2)+log(LF)+
-                       log(M.F)+ log(Pop)+log(NW)+log(U1)+log(U2)+
-                       log(GDP)+log(Ineq)+log(Prob)+log(Time))
-glm.out.crime <- bic.glm(f, data = UScrime, glm.family = gaussian()) 
+f <- formula(log(y) ~ log(M)+So+log(Ed)+log(Po1)+log(Po2)+
+      log(LF)+log(M.F)+ log(Pop)+log(NW)+log(U1)+log(U2)+
+      log(GDP)+log(Ineq)+log(Prob)+log(Time))
+glm.out.crime <- bic.glm(f, data = UScrime, 
+      glm.family = gaussian()) 
 summary(glm.out.crime)
-# note the problems with the estimation of the posterior standard 
-# deviation (compare with bicreg example)
+# note the problems with the estimation of the 
+# posterior standard deviation (compare with bicreg example)
 }
 
 }
