@@ -346,6 +346,23 @@ glm.out.yates <- bic.glm( x, y, n, glm.family = poisson(),
                          factor.type=FALSE) 
 summary(glm.out.yates)
 
+# confirm that the components have the same names 
+# between bic.glm.matrix and bic.glm.data.frame
+
+glm.oydf <- bic.glm(as.data.frame(x), y, n, 
+            glm.family = poisson(), factor.type=FALSE) 
+\dontshow{stopifnot(}            
+all.equal(names(glm.oydf), names(glm.out.yates))
+\dontshow{)}
+
+glm.oyf <- bic.glm(y~., 
+    cbind(y=y, as.data.frame(x)), n, 
+            glm.family = poisson(), factor.type=FALSE) 
+\dontshow{stopifnot(}            
+all.equal(names(glm.oyf), names(glm.out.yates))
+\dontshow{)}
+
+
 \dontrun{
 ### Gaussian
 library(MASS)
