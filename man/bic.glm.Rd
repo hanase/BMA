@@ -329,39 +329,40 @@ plot(glm.out.va)
 ### Poisson family
 ### Yates (teeth) data. 
 
-x<- rbind(
+xYates <- rbind(
     c(0, 0, 0),
     c(0, 1, 0),
     c(1, 0, 0),
     c(1, 1, 1))
 
-y<-c(4, 16, 1, 21)
+yYates <-c(4, 16, 1, 21)
 n<-c(1,1,1,1)
 
 models<- rbind(
     c(1, 1, 0),
     c(1, 1, 1))
 
-glm.out.yates <- bic.glm( x, y, n, glm.family = poisson(), 
-                         factor.type=FALSE) 
+glm.out.yates <- bic.glm(xYates, yYates, 
+    n, glm.family = poisson(), factor.type=FALSE) 
 summary(glm.out.yates)
 
 # confirm that the components have the same names 
 # between bic.glm.matrix and bic.glm.data.frame
 
-glm.oydf <- bic.glm(as.data.frame(x), y, n, 
-            glm.family = poisson(), factor.type=FALSE) 
+glm.oydf <- bic.glm(data.frame(xYates), yYates, n, 
+          glm.family = poisson(), factor.type=FALSE) 
 \dontshow{stopifnot(}            
 all.equal(names(glm.oydf), names(glm.out.yates))
 \dontshow{)}
 
 glm.oyf <- bic.glm(y~., 
-    cbind(y=y, as.data.frame(x)), n, 
+    cbind(y=yYates, data.frame(xYates)), n, 
             glm.family = poisson(), factor.type=FALSE) 
+\dontrun{            
 \dontshow{stopifnot(}            
 all.equal(names(glm.oyf), names(glm.out.yates))
 \dontshow{)}
-
+}
 
 \dontrun{
 ### Gaussian
