@@ -531,7 +531,7 @@ function (x, y, glm.family, wt = rep(1, nrow(x)),
         postmean = postmean, 
         postsd = as.vector(SDbi), 
         condpostmean = CEbi, condpostsd = CSDbi, 
-        mle = EbiMk, se = sebiMk, namesx = var.names, 
+        mle = EbiMk, se = sebiMk, namesx = namx, 
         reduced = reduced, dropped = dropped, call = cl, 
         n.models = length(postprob), 
         n.vars = length(probne0), nests = length(Ebi), 
@@ -539,6 +539,7 @@ function (x, y, glm.family, wt = rep(1, nrow(x)),
         assign = glm.assign, factor.type = factor.type, 
         design = leaps.x, x = x, y = y, 
         formula = formula(cdf))
+    names(result$x) <- namx
     class(result) <- "bic.glm"
     result
 }
@@ -637,7 +638,6 @@ function (f, data, glm.family, wt = rep(1, nrow(data)),
 ## added to facilitate predict 10/2011 CF
 ########################################################################
     result$formula <- f
-    result$namex <- names(moddata)
     result$x <- moddata
     result$y <- datalist[[1]]
     result
