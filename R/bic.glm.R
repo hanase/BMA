@@ -13,7 +13,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)),
 
     namx <- names(x)
 
-    if (is.null(colnames(x))) colnames(x) <- 1:ncol(x)
+    if (is.null(colnames(x))) 
+      paste0('X', colnames(x) <- 1:ncol(x))
 
 # this will add a suffix ".x" to the names to prevent 
 #    duplicate names when there are factors
@@ -636,6 +637,7 @@ function (f, data, glm.family, wt = rep(1, nrow(data)),
 ## added to facilitate predict 10/2011 CF
 ########################################################################
     result$formula <- f
+    result$namex <- names(moddata)
     result$x <- moddata
     result$y <- datalist[[1]]
     result
