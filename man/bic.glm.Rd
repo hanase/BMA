@@ -358,11 +358,10 @@ all.equal(names(glm.oydf), names(glm.out.yates))
 glm.oyf <- bic.glm(y~., 
     cbind(y=yYates, data.frame(xYates)), n, 
             glm.family = poisson(), factor.type=FALSE) 
-\dontrun{            
+
 \dontshow{stopifnot(}            
 all.equal(names(glm.oyf), names(glm.out.yates))
 \dontshow{)}
-}
 
 \dontrun{
 ### Gaussian
