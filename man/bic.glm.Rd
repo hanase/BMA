@@ -46,7 +46,7 @@ bic.glm(x, ...)
   \item{prior.param}{a vector of values specifying the prior weights for each variable.}
   \item{OR}{ a number specifying the maximum ratio for excluding models in Occam's window }
   \item{maxCol}{a number specifying the maximum number of columns in design matrix 
-                (excluding intercept) to be kept. }
+                (including intercept) to be kept.}
   \item{OR.fix}{width of the window which keeps models after the leaps approximation
                 is done.  
                 Because the leaps and bounds gives only an approximation to BIC, 

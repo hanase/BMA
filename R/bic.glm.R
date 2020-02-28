@@ -140,7 +140,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         while (length(glm.out$coefficients) > maxCol) {
             any.dropped <- TRUE
             dropglm <- drop1(glm.out, test = "Chisq")
-            dropped <- which.max(dropglm$LRT[-1]) + 1
+            lrtname <- if(!is.null(dropglm$LRT)) "LRT" else "scaled dev."
+            dropped <- which.max(dropglm[[lrtname]][-1]) + 1
             if (length(dropped) == 0) 
                 stop("dropped == 0")
             x.df <- x.df[, -(dropped - 1)]
