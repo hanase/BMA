@@ -1,6 +1,7 @@
-3.18.12 (2020-02-28):
+3.18.12 (2020-03-10):
 - fix bug in dropping column in bic.glm
 - correct documentation of maxCol in bic.glm [reported by Hasan Can Bilgen] 
+- added the github url to description
 
 3.18.11 (2019-11-21):
 - fix bug in computing SD in predict.bicreg (thanks to Anupreet Porwal)
