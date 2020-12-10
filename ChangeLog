@@ -1,3 +1,8 @@
+3.18.13 (2020-12-10):
+- In bicreg(): stop() replaced with warning() in cases when the model is perfectly 
+correlated with the response
+[requested by Luca Scrucca in order for clustvarsel() not ending with error]
+
 3.18.12 (2020-03-10):
 - fix bug in dropping column in bic.glm
 - correct documentation of maxCol in bic.glm [reported by Hasan Can Bilgen] 

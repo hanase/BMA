@@ -110,8 +110,12 @@ function (x, y, wt = rep(1, length(y)), strict = FALSE, OR = 20,
         }
     }
     n <- length(y)
-    if (any((1 - r2/100) <= 0)) 
-        stop("a model is perfectly correlated with the response")
+    if (any((1 - r2/100) <= 0)) {
+        #stop("a model is perfectly correlated with the response")
+        # Change (12/10/2020) suggested by Luca Scrucca 
+        warning("a model is perfectly correlated with the response")
+        r2[(1 - r2/100) <= 0] <- (1 - .Machine$double.eps)*100
+    }
     bic <- n * log(1 - r2/100) + (size - 1) * log(n)
     occam <- bic - min(bic) < 2 * log(OR)
     r2 <- r2[occam]
