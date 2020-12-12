@@ -72,7 +72,7 @@ Jennifer Hoeting, Adrian E. Raftery and David Madigan (1996).
 Computational Statistics and Data Analysis, 22, 251-270 
 
 Earlier versions of these papers are available via the World Wide Web using the url:
-\url{http://www.stat.colostate.edu/~jah/papers/}
+\url{https://www.stat.colostate.edu/~jah/papers/}
 
 }
 \author{Jennifer Hoeting \email{jah@AT@stat.colostate.edu} with the assistance of Gary Gadbury. Translation from Splus to R by Ian Painter \email{ian.painter@AT@gmail.com}.}

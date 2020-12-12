@@ -1,3 +1,6 @@
+3.18.14 (2020-12-11):
+- http changed to https (requested by CRAN)
+
 3.18.13 (2020-12-10):
 - In bicreg(): stop() replaced with warning() in cases when the model is perfectly 
 correlated with the response
