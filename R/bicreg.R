@@ -89,7 +89,7 @@ function (x, y, wt = rep(1, length(y)), strict = FALSE, OR = 20,
         bic <- label <- rep(0, nmod)
         model.fits <- as.list(rep(0, nmod))
         which <- matrix(c(FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, 
-            TRUE, TRUE), nmod, nmod/2)
+            TRUE, TRUE)[1:(nmod*nmod/2)], nmod, nmod/2)
         size <- c(1, 2, 2, 3)[1:nmod]
         sep <- if (all(nchar(dimnames(x)[[2]]) == 1)) 
             ""

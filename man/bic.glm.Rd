@@ -235,6 +235,11 @@ summary(glm.out.crime)
 # deviation (compare with bicreg example)
 }
 
+# Spencer Graves example
+PoisRegDat <- data.frame(x=1:2, y=c(5, 10))
+bicGLMex <- bic.glm(PoisRegDat['x'],
+                    PoisRegDat[, 'y'], poisson) 
+
 }
 \keyword{regression}
 \keyword{models}

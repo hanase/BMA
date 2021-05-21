@@ -272,7 +272,7 @@ function (x, surv.t, cens, strict = FALSE, OR = 20, maxCol = 30,
     else {
         nmod <- switch(ncol(x), 2, 4)
         bic <- label <- rep(0, nmod)
-        which <- matrix(c(FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE), nmod, nmod/2)
+        which <- matrix(c(FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE)[1:(nmod*nmod/2)], nmod, nmod/2)
         size <- c(0, 1, 1, 2)[1:nmod]
         sep <- ","
         prior.mat <- matrix(rep(prior.param, nmod), nmod, ncol(x), 
@@ -730,7 +730,7 @@ function (x, surv.t, cens, strict = FALSE, OR = 20, maxCol = 30,
     else {
         nmod <- switch(ncol(x), 2, 4)
         bic <- label <- rep(0, nmod)
-        which <- matrix(c(FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE), nmod, nmod/2)
+        which <- matrix(c(FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE)[1:(nmod*nmod/2)], nmod, nmod/2)
         size <- c(0, 1, 1, 2)[1:nmod]
         sep <- ","
         prior.mat <- matrix(rep(prior.param, nmod), nmod, ncol(x), 
