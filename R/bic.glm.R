@@ -919,7 +919,8 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
         nmod <- switch(ncol(x), 2, 4)
         bic <- label <- rep(0, nmod)
         which <- matrix(c(FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, 
-            TRUE, TRUE)[1:(nmod*nmod/2)], nmod, nmod/2)
+            TRUE, TRUE)#[1:(nmod*nmod/2)]
+            , nmod, nmod/2)
         size <- c(0, 1, 1, 2)[1:nmod]
         sep <- if (all(nchar(names.arg) == 1)) 
             ""

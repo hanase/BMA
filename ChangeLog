@@ -1,3 +1,6 @@
+3.18.15 (2021-05-21):
+- fix CRAN error "data length differs from size of matrix"
+
 3.18.14 (2020-12-11):
 - http changed to https (requested by CRAN)
 
