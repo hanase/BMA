@@ -27,7 +27,7 @@ bic.glm(x, ...)
     strict = FALSE, prior.param = c(rep(0.5, ncol(x))), OR = 20, 
     maxCol = 30, OR.fix = 2, nbest = 150, dispersion = NULL, 
     factor.type = TRUE, factor.prior.adjust = FALSE, 
-    occam.window = TRUE, ...)
+    occam.window = TRUE, na.action = na.omit, ...)
 }
 \arguments{
   \item{x}{a matrix or data.frame of independent variables.}
@@ -85,6 +85,7 @@ bic.glm(x, ...)
         If set to \code{FALSE} then all models selected by the modified leaps 
         algorithm are returned.}
       \item{call}{used internally}
+  \item{na.action}{a function which indicates what should happen when data contain \code{NA}s. Possible values are \code{\link{na.omit}}, \code{\link{na.exclude}}, \code{\link{na.fail}}, \code{\link{na.pass}} or \code{NULL}.}
 \item{...}{unused}
 }
 \details{

@@ -97,6 +97,7 @@ function (object, n.models = 5, digits = max(3, getOption("digits") -
         cat(x$dropped)
         cat("\n")
     }
+    
     n.models <- min(n.models, x$n.models)
     sel <- 1:n.models
     cat("\n ", length(x$postprob), " models were selected")
@@ -189,6 +190,8 @@ function (object, n.models = 5, digits = max(3, getOption("digits") -
     colnms <- c(colnms, paste("model ", 1:n.models, sep = ""))
     dimnames(out)[[2]] <- colnms
     print.default(out, print.gap = 2, quote = FALSE, ...)
+    if(!is.null(object$na.action) && object$na.action > 0)
+        cat("\n ", object$na.action, " observations deleted due to missingness.\n")
 }
 
 

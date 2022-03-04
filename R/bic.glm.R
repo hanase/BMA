@@ -511,13 +511,15 @@ function (x, y, glm.family, wt = rep(1, nrow(x)), strict = FALSE,
 function (f, data, glm.family, wt = rep(1, nrow(data)), strict = FALSE, 
     prior.param = c(rep(0.5, ncol(x))), OR = 20, maxCol = 30, 
     OR.fix = 2, nbest = 150, dispersion = NULL, factor.type = TRUE, 
-    factor.prior.adjust = FALSE, occam.window = TRUE, ...) 
+    factor.prior.adjust = FALSE, occam.window = TRUE, na.action = na.omit, ...) 
 {
     cl <- match.call()
     tms <- terms(f, data = data)
     fmatrix <- attr(tms, "factors")
     tms.order <- attr(tms, "order")
     tms.labels <- attr(tms, "term.labels")
+    attr(data, "na.action") <- na.action
+    if(!is.null(na.action)) data <- na.action(data)
     mm <- model.matrix(tms, data = data)
 ############################################################################
 ## change to facilitate predict 10/2011 CF
@@ -597,6 +599,7 @@ function (f, data, glm.family, wt = rep(1, nrow(data)), strict = FALSE,
     result$formula <- f
     result$x <- moddata
     result$y <- datalist[[1]]
+    result$na.action <- length(attr(data, "na.action"))
     result
 
 }
