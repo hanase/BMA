@@ -70,7 +70,7 @@ Earlier versions of these papers are available via the World Wide Web using the 
 \url{https://www.stat.colostate.edu/~jah/papers/}
 
 }
-\author{Jennifer Hoeting \email{jah@AT@stat.colostate.edu} with the assistance of Gary Gadbury. Translation from Splus to R by Ian S. Painter.}
+\author{Jennifer Hoeting \email{jennifer.hoeting@gmail.com} with the assistance of Gary Gadbury. Translation from Splus to R by Ian S. Painter.}
 \note{
 
 The default values for \code{nu}, \code{lambda} and \code{phi} are recommended when the R2 value for the full model with all outliers is less than 0.9.

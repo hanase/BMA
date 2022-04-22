@@ -121,9 +121,9 @@ If on any iteration there are no variables that have posterior probability less 
 \references{Yeung, K.Y., Bumgarner, R.E. and Raftery, A.E. (2005). ` Bayesian Model Averaging: Development of an improved multi-class, gene selection and classification tool for microarray data.' Bioinformatics, 21(10), 2394-2402 }
 
 \author{
-Ka Yee Yeung, \email{kayee@AT@u.washington.edu},
-Adrian Raftery \email{raftery@AT@stat.washington.edu},
- Ian Painter \email{ian.painter@AT@gmail.com}
+Ka Yee Yeung, \email{kayee@uw.edu},
+Adrian Raftery \email{raftery@uw.edu},
+ Ian Painter \email{ian.painter@gmail.com}
 }
 
 \note{ 

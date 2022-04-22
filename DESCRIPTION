@@ -1,6 +1,6 @@
 Package: BMA
-Version: 3.18.15.9001
-Date: 2022-03-04
+Version: 3.18.16
+Date: 2022-04-22
 Title: Bayesian Model Averaging
 Author: Adrian Raftery <raftery@uw.edu>, Jennifer Hoeting,
         Chris Volinsky, Ian Painter, Ka Yee Yeung

@@ -146,7 +146,7 @@ Raftery, Adrian E. (1995). Bayesian model selection in social research (with Dis
  
 Raftery, A.E. (1996). Approximate Bayes factors and accounting for model uncertainty in generalized linear models. Biometrika (83: 251-266). 
 } 
-\author{ Original Splus code developed by Adrian Raftery \email{raftery@AT@stat.washington.edu} and revised by Chris T. Volinsky. Translation to R by Ian S. Painter. }
+\author{ Original Splus code developed by Adrian Raftery \email{raftery@uw.edu} and revised by Chris T. Volinsky. Translation to R by Ian S. Painter. }
 \note{The outputs controlled by glimvar, output.priorvar and output.postvar can take up a lot of space, 
 which is why these control parameters are F by default. }
 \seealso{ \code{\link{bic.glm}}, \code{\link{summary.glib}} }

@@ -27,7 +27,7 @@ The option \code{color = "mds"} is useful for observing variables with linked be
 This option uses multidimensional scaling on one dimension using Kendall's tau statistic calculated on two-by-two tables of pairwise comparisons of variable inclusion/exclusion from the selected models.
   }
 
-\author{Adrian E. Raftery \email{raftery@AT@stat.washington.edu} and Hana Sevcikova}
+\author{Adrian E. Raftery \email{raftery@uw.edu} and Hana Sevcikova \email{hanas@uw.edu}}
 \references{Clyde, M. (1999) Bayesian Model Averaging and Model Search Strategies (with discussion). In Bayesian Statistics 6. J.M. Bernardo, A.P. Dawid, J.O. Berger, and A.F.M. Smith eds. Oxford University Press, pages 157-185.
 }
 \seealso{ \code{\link{bicreg}}, \code{\link{bic.glm}}, \code{\link{bic.surv}} }

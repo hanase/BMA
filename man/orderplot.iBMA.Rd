@@ -29,7 +29,7 @@ orderplot(x, ...)
   
 }
 
-\author{Ian Painter \email{ian.painter@AT@gmail.com}}
+\author{Ian Painter \email{ian.painter@gmail.com}}
 \seealso{ \code{\link{summary.iBMA.glm}}, \code{\link{iBMA}} }
 \examples{
 

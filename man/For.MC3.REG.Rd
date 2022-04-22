@@ -75,7 +75,7 @@ Earlier versions of these papers are available via the World Wide Web using the 
 \url{https://www.stat.colostate.edu/~jah/papers/}
 
 }
-\author{Jennifer Hoeting \email{jah@AT@stat.colostate.edu} with the assistance of Gary Gadbury. Translation from Splus to R by Ian Painter \email{ian.painter@AT@gmail.com}.}
+\author{Jennifer Hoeting \email{jennifer.hoeting@gmail.com} with the assistance of Gary Gadbury. Translation from Splus to R by Ian Painter \email{ian.painter@gmail.com}.}
 \note{ The implementation here differs from the Splus implentation. The Splus implementation uses global variables to contain the state of the current model and the history of the Markov-Chain. This implentation passes the current state and history to the function and then returns the updated state. }
 \seealso{ \code{\link{MC3.REG}}, \code{\link{MC3.REG.choose}}, \code{\link{MC3.REG.logpost}} }
 \keyword{regression}

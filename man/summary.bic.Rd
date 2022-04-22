@@ -61,7 +61,7 @@
 The print methods display a view similar to \code{print.lm} or \code{print.glm}. 
 The summary methods display a view specific to model averaging. 
 }
-\author{Ian Painter \email{ian.painter@AT@gmail.com}}
+\author{Ian Painter \email{ian.painter@gmail.com}}
 \note{The summary function does not create a summary object (unlike \code{summary.lm} or \code{summary.glm}), instead it directly prints the summary. Note that no calculations are done to create the summary.}
 \examples{
 # logistic regression

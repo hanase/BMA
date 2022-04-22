@@ -109,11 +109,11 @@ Assessing the Risk of a Stroke."  Applied Statistics 46: 433-448
 
 \author{
 Chris Volinsky 
-\email{volinsky@AT@research.att.com};
+\email{volinsky@research.att.com};
 Adrian Raftery 
-\email{raftery@AT@stat.washington.edu};
+\email{raftery@uw.edu};
 Ian Painter 
-\email{ian.painter@AT@gmail.com}
+\email{ian.painter@gmail.com}
 }
 
 \seealso{ \code{\link{summary.bic.surv}}, 

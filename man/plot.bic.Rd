@@ -32,7 +32,7 @@ The nonzero part of the distribution is scaled so that the maximum height is equ
 The parameter \code{e} specifies the range over which the distributions are to be graphed by specifying the tail probabilities that dictate the range to plot over. }
 \references{Hoeting, J.A., Raftery, A.E. and Madigan, D. (1996). A method for simultaneous variable selection and outlier identification in linear regression. Computational Statistics and Data Analysis, 22, 251-270.
  }
-\author{Ian Painter \email{ian.painter@AT@gmail.com}}
+\author{Ian Painter \email{ian.painter@gmail.com}}
 \examples{
 library(MASS)
 data(UScrime)
