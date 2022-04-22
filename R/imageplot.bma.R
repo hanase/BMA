@@ -13,7 +13,7 @@ function (bma.out, color = c("red", "blue", "#FFFFD5"), order = c("input",
     nmodel <- nrow(bma.out$which)
     which <- bma.out$which
     probne0 <- bma.out$probne0
-    if (class(bma.out) == "bic.surv") 
+    if (inherits(bma.out, "bic.surv"))
         mle <- bma.out$mle
     else mle <- bma.out$mle[, -1, drop = FALSE]
     nvar <- ncol(mle)
@@ -25,7 +25,7 @@ function (bma.out, color = c("red", "blue", "#FFFFD5"), order = c("input",
         rownms <- rep(NA, times = nvar)
         assign <- bma.out$assign
         offset <- 1
-        if (class(bma.out) == "bic.surv") 
+        if (inherits(bma.out, "bic.surv")) 
             offset <- 0
         assign[[1]] <- NULL
         for (i in 1:length(assign)) {
