@@ -91,9 +91,11 @@ c   12 format(' screen error code is',i3)
 c                      bounds from forward pivots 
       subroutine forwd(rr,xi,xn,xm,dd,d,dt,co,sc,sq,cl,rm,inn,ipp,ind,
      1   int,ns,nd,kx,no,it,nf,ib,mb,s2,tl,nv,fd,ne,iv,rss,sbs)
-	double precision rr,xi,xm,xn,dd,d,dt,co,sc,sq,cl,rm,ci,cn,zip
-	double precision tol,tal,tul,rt,rs,sig,bit,df,dint,pen,wt,bnd
-	double precision wst,rss,sbs,rsret
+      double precision rr,xi,xm,xn,dd,d,dt,co,sc,sq,cl,rm,ci,cn,zip
+      double precision tol,tal,tul,rt,rs,sig,bit,df,dint,pen,wt,bnd
+      double precision wst,rss,sbs,rsret,tn,sel,beta
+      double precision tel,f,yint
+      real dx,di
       dimension rr(nd,nd),xi(nd,nd),xn(nd,nd),xm(nd),dd(nd),d(nd),
      1   dt(nd),co(nd),sc(nd),sq(nd),cl(ns),rm(ns),inn(nd),ind(nd), 
      2   int(nd),ipp(nd),rss(ns),sbs(ns)
@@ -129,11 +131,11 @@ c                          check subscript list
       return
    16    tn=rr(m,m) 
 c                         scale by powers of 16 
-      sc(m)=16.0**ifix(alog(tn)/2.0/alog(16.0)) 
+      sc(m)=16.0**ifix(alog(real(tn))/2.0/alog(16.0)) 
       sq(m)=rr(m,m)/(sc(m)*sc(m)) 
       int(m)=1
    17 continue
-      dx=zip
+      dx=real(zip)
       pen=fd
       if(pen.le.zip.and.ib.eq.3) pen=2.0
       df=no-min0(it,1)
@@ -206,7 +208,8 @@ c suspending rs check, as this apparently d
 c     if(rs.ge.tul) go to 27
 c     ne=6
 c      return
-   27          mt=mn+1
+c     27          mt=mn+1
+      mt=mn+1
       call qstore(rs,ci,cl,rm,mb,df,mn,sig,pen,ib,ns)
    28    continue 
       ci=ci-co(n) 
@@ -218,7 +221,7 @@ c                        begin branch and bound
       mn=mh 
       call landb(xi,xn,d,dd,ci,cn,co,cl,rm,ind,ns,nd,df,
      1         ib,mb,ls,mn,ky,sig,pen,zip,kx,kz,int,iv) 
-      di=(rs-xi(ky,ky))/sq(ky)
+      di=real((rs-xi(ky,ky))/sq(ky))
       dx=amax1(dx,abs(di))
       call copy(xi,xn,int,ind,mn-1,ls,mn+kz-ls,nd,sc,ci,cn,0) 
 c                               backtrack 
@@ -234,11 +237,11 @@ c                               backtrack
    31    go to 30 
    32 go to 23
 c                                output
-   33	icur=1  
+   33 icur=1  
       do 42 lb=1,ns 
       if(cl(lb).eq.zip) go to 42
 c                             decode labels 
-	sbs(icur)=cl(lb)
+      sbs(icur)=cl(lb)
       m=0 
       do 34 l=1,nv
       if(cl(lb).lt.co(l)) go to 34
@@ -253,8 +256,8 @@ c     1  call intpr("n variables = ",-1,m,1)
 c	call dblepr("regid = ",-1,sbs(icur),1)
 c	call intpr("subset = ",-1,ind,m)
       call crit(rs,rm(lb),sq(ky),sig,df,pen,it,ib,m,rsret)
-	rss(icur)=rsret
-	icur=icur+1
+      rss(icur)=rsret
+      icur=icur+1
       call copy(xn,rr,ind,ind,m+1,0,m+1,nd,sc,cn,zip,1) 
 c                           invert submatrix
       do 37 l=1,m 
@@ -272,7 +275,7 @@ c                         regression statistics
       tel=-d(n)*d(n)/sq(n)/xn(n,n)
       f=-xn(n,ky)*xn(n,ky)/(xn(n,n)*rt) 
    39    continue 
-      di=(rs-xn(ky,ky))/sq(ky)
+      di=real((rs-xn(ky,ky))/sq(ky))
       dx=amax1(dx,abs(di))
       if(it.ne.1) go to 42
 c                               intercept 
@@ -283,18 +286,18 @@ c                               intercept
    40       continue
       yint=dint 
    42 continue
-      di=(sq(ky)-xi(ky,ky))/sq(ky)
+      di=real((sq(ky)-xi(ky,ky))/sq(ky))
       dx=amax1(dx,abs(di))
 c  multreg next two lines 
 c      if(dx.gt.tol)
 c     1 call dblepr('Largest discrepancy observed for R**2 is',-1,dx,1)
-	lb=1
+      lb=1
       return
       end 
 c                           leaps and bounds
       subroutine landb(xi,xn,d,yi,ci,cn,co,cl,rm,ind,ns,nd,df,ib, 
      1   mb,iz,mn,ky,sig,pen,zip,kx,kz,ni,iv) 
-	double precision xi,xn,d,yi,cn,ci,co,cl,rm,zip,rs,sig,df,bnd,pen 
+      double precision xi,xn,d,yi,cn,ci,co,cl,rm,zip,rs,sig,df,bnd,pen 
       dimension xn(nd,nd),xi(nd,nd),d(nd),yi(nd),co(nd),cl(ns),rm(ns),
      1   ni(nd),ind(nd) 
       ni(iz)=kx 
@@ -398,7 +401,7 @@ c                               backtrack
 c                           check tolerances
       subroutine test(wt,n,xi,int,d,dd,sq,dt,ml,mn,nd)
 
-	double precision wt,xi,d,dd,sq,dt
+      double precision wt,xi,d,dd,sq,dt
       dimension xi(nd,nd),int(nd),d(nd),dd(nd),sq(nd),dt(nd)
       d(n)=xi(n,n)
       wt=d(n)/sq(n) 
@@ -416,7 +419,7 @@ c*****the next two lines of code are modified for cdc (?)
       end 
 c                             partial sweep 
       subroutine pivot(n,ml,ls,lx,xn,int,ind,cn,co,dt,iq,nd,nn,ky,ll,ly)
-	double precision xn,b,dt,cn,co 
+      double precision xn,b,dt,cn,co 
       dimension xn(nd,nd),dt(nd),ind(nd),int(nd)
       nn=lx 
       if(iq.eq.3) go to 10
@@ -453,10 +456,11 @@ c                                gauss
       end 
 c                   labels and saves best regressions 
       subroutine qstore(rs,cn,cl,rm,mb,df,mn,sig,pen,ib,ns) 
-	double precision rs,cn,cl,rm,df,sig,pen,tr 
+      double precision rs,cn,cl,rm,df,sig,pen,tr
       dimension cl(ns),rm(ns) 
       call trans(tr,mr,rs,df,mn,sig,pen,ib,mb)
-      if(rm(mr).le.tr) return 
+      if(rm(mr).le.tr) return
+      l=0
       do 10 m=1,mb
       l=mr-mb+m 
       if(cl(l).eq.cn) return
@@ -474,7 +478,7 @@ c                   labels and saves best regressions
       end 
 c                              matrix copy
       subroutine copy(xn,xi,int,ind,ml,mt,mp,nd,sc,cn,ci,iq)
-	double precision xn,xi,sc,cn,ci
+      double precision xn,xi,sc,cn,ci
       dimension int(nd),ind(nd),xn(nd,nd),xi(nd,nd),sc(nd)
       do 12 l=1,mp
       if(l.le.ml) go to 10
@@ -493,30 +497,42 @@ c                              matrix copy
       end 
 c             transform of criterion-smaller must be better 
       subroutine trans(tr,mr,rs,df,mn,sig,pen,ib,mb)
-	double precision rs,df,sig,pen,tr
+      double precision rs,df,sig,pen,tr
       mr=mb 
-      go to (10,11,12),ib 
-   10 tr=rs 
-      mr=mn*mb
-      return
-   11 tr=rs/(df-float(mn))
-      return
-   12 tr=rs+pen*float(mn)*sig 
-      return
+c     go to (10,11,12),ib
+      select case (ib)
+      case (1)
+         tr=rs 
+         mr=mn*mb
+         return
+      case (2)
+         tr=rs/(df-float(mn))
+         return
+      case (3)
+         tr=rs+pen*float(mn)*sig 
+         return
+      end select
       end 
 c                   criterion and r**2 from transform 
       subroutine crit(rs,tr,ss,sig,df,pen,it,ib,mn,rsrt) 
-	double precision rs,tr,ss,sig,df,pen,cr,rsrt
-      go to (11,14,16),ib 
-   11 rs=tr 
-   12 cr=1.0-rs/ss
-	rsrt=cr
+      double precision rs,tr,ss,sig,df,pen,cr,rsrt
+c     go to (11,14,16),ib
+      cr = 0.0
+      select case (ib)
+      case (1)
+         rs=tr 
+         cr=1.0-rs/ss
+c         rsrt=cr
 c	call dblepr('R^2 = ',-1,cr,1)
-      return
-   14 cr=1.0-df*tr/ss 
-      rs=tr*(df-float(mn))
-      go to 12
-   16 cr=tr/sig-df+float(min0(it,1))*(pen-1.0)
-      rs=tr-pen*float(mn)*sig 
-      go to 12
+c         return
+      case (2)
+         cr=1.0-df*tr/ss 
+         rs=tr*(df-float(mn))
+c         go to 12
+      case (3)
+         cr=tr/sig-df+float(min0(it,1))*(pen-1.0)
+         rs=tr-pen*float(mn)*sig 
+c         go to 12
+      end select
+      rsrt=cr
       end 
