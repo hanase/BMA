@@ -26,9 +26,9 @@ https://github.com/SurajGupta/r-source/blob/master/src/main/envir.c
  
 src <- '
 if (TYPEOF(env) == NILSXP)
-perror("use of NULL environment is defunct");
+error("use of NULL environment is defunct");
 if (TYPEOF(env) != ENVSXP)
-perror("not an environment");
+error("not an environment");
  
 UNLOCK_FRAME(env);
  
@@ -42,7 +42,8 @@ return result;
  
 unlockEnvironment <- cfunction(signature(env = "environment"),
 includes = inc,
-body = src)
+body = src,
+language = "c")
     
 
     nsEnv <- asNamespace('BMA')
