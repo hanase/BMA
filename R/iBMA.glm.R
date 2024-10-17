@@ -26,9 +26,9 @@ https://github.com/SurajGupta/r-source/blob/master/src/main/envir.c
  
 src <- '
 if (TYPEOF(env) == NILSXP)
-error("use of NULL environment is defunct");
+perror("use of NULL environment is defunct");
 if (TYPEOF(env) != ENVSXP)
-error("not an environment");
+perror("not an environment");
  
 UNLOCK_FRAME(env);
  
