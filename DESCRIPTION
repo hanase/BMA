@@ -1,10 +1,28 @@
 Package: BMA
-Version: 3.18.17
-Date: 2022-04-22
+Version: 3.18.18
+Date: 2024-10-17
 Title: Bayesian Model Averaging
-Author: Adrian Raftery <raftery@uw.edu>, Jennifer Hoeting,
-        Chris Volinsky, Ian Painter, Ka Yee Yeung
-Maintainer: Hana Sevcikova <hanas@uw.edu>
+Authors@R: c(person(given = "Adrian",
+                      family = "Raftery",
+                      role = "aut",
+                      email = "raftery@uw.edu"),
+            person(given = "Jennifer",
+                      family = "Hoeting",
+                      role = "aut"),
+            person(given = "Chris",
+                      family = "Volinsky",
+                      role = "aut"), 
+            person(given = "Ian",
+                      family = "Painter",
+                      role = "aut"),
+            person(given = "Ka Yee",
+                      family = "Yeung",
+                      role = "aut"),
+            person(given = "Hana",
+                      family = "Sevcikova",
+                      role = c("cre"),
+                      email = "hanas@uw.edu")
+               )
 Description: Package for Bayesian model averaging and variable selection for linear models,
         generalized linear models and survival models (cox
         regression).
@@ -12,5 +30,5 @@ Depends: survival, leaps, robustbase, inline, rrcov
 Imports: methods
 Suggests: MASS
 License: GPL (>= 2)
-URL: http://stats.research.att.com/volinsky/bma.html, https://github.com/hanase/BMA
+URL: https://github.com/hanase/BMA
 NeedsCompilation: yes

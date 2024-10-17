@@ -1,3 +1,6 @@
+3.18.18 (2024-10-17):
+- edits in fwleaps.f to avoid compiler warnings 
+
 3.18.17 (2022-04-22):
 - added argument na.action to bic.glm.formula to deal with missing data [suggested by Emil O. W. Kirkegaard]
 - email addresses fixed to pass CRAN check
