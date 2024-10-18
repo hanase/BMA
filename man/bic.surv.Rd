@@ -125,7 +125,7 @@ Ian Painter
 \dontrun{
 ## veteran data
 library(survival)
-data(veteran)
+data(cancer)
 
 test.bic.surv<- bic.surv(Surv(time,status) ~ ., data = veteran, 
                          factor.type = TRUE)
@@ -135,9 +135,8 @@ plot(test.bic.surv)
 imageplot.bma(test.bic.surv)
 }
 
-
 ## pbc data
-data(pbc)
+
 x<- pbc[1:312,]
 surv.t<- x$time
 cens<- as.numeric((x$status == 2))

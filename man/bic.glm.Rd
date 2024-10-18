@@ -188,7 +188,7 @@ imageplot.bma(glm.out.TF)
 \dontrun{
 ### Gamma family 
 library(survival)
-data(veteran)
+data(cancer)
 surv.t<- veteran$time
 x<- veteran[,-c(3,4)]
 x$celltype<- factor(as.character(x$celltype))

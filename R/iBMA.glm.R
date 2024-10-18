@@ -43,7 +43,7 @@ return result;
 unlockEnvironment <- cfunction(signature(env = "environment"),
 includes = inc,
 body = src,
-language = "c")
+language = "C")
     
 
     nsEnv <- asNamespace('BMA')

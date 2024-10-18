@@ -174,7 +174,7 @@ summary(iBMA.glm.out)
 \dontrun{
 ################## iBMA.surv
 library(survival)
-data(veteran)
+data(cancer)
 
 surv.t<- veteran$time
 cens<- veteran$status
@@ -188,6 +188,7 @@ X <- data.frame(matrix(runif(lvet*34), ncol=34),
                matrix(letters[1:6][(rbinom(10*lvet, 3, .5))+1], 
                ncol = 10))
 colnames(X) <- c(paste("u",1:34, sep=""),paste("C",1:10, sep=""))
+for(i in 35:44) X[,i] <- as.factor(X[,i])
 veteran_plus_noise<- cbind(veteran, X)
 
 

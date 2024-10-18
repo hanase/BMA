@@ -94,7 +94,7 @@ generalized linear model from given data.
 # Example 4 (Gamma)
 
      library(survival)
-     data(veteran)
+     data(cancer)
 
      surv.t <- veteran$time
      x <- veteran[,-c(3,4)]

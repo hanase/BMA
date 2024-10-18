@@ -45,7 +45,7 @@ the response resulting from a BMA linear model from given data.
      npkBMA <- bicreg( x = npk[, c("block","N","K")], y=npk$yield)
      predict( npkBMA, newdata = npk)
 
-# Example 2 (Venables and Ripley)
+# Example 3 (Venables and Ripley)
 
      gasPRbma <- bicreg( x = whiteside[,c("Insul", "Temp")], 
                          y = whiteside$Gas)
