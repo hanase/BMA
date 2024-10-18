@@ -54,9 +54,9 @@ jobs:
           upload-snapshots: true
           build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf", "--as-cran")'
 
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v4
+#      - name: Cache R packages
+#        if: runner.os != 'Windows'
+#        uses: actions/cache@v4
 
       - name: Show testthat output
         if: always()
