@@ -22,13 +22,14 @@ https://github.com/SurajGupta/r-source/blob/master/src/main/envir.c
 #define FRAME_LOCK_MASK (1<<14)
 #define FRAME_IS_LOCKED(e) (ENVFLAGS(e) & FRAME_LOCK_MASK)
 #define UNLOCK_FRAME(e) SET_ENVFLAGS(e, ENVFLAGS(e) & (~ FRAME_LOCK_MASK))
+#define R_NO_REMAP
 '
  
 src <- '
 if (TYPEOF(env) == NILSXP)
-error("use of NULL environment is defunct");
+Rf_error("use of NULL environment is defunct");
 if (TYPEOF(env) != ENVSXP)
-error("not an environment");
+Rf_error("not an environment");
  
 UNLOCK_FRAME(env);
  
