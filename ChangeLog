@@ -1,3 +1,6 @@
+3.18.19/20 (2025-01-10):
+- C-code fixes due to changes in the "inline" package (thanks to Dirk Eddelbuettel)
+
 3.18.18 (2024-10-17):
 - edits in fwleaps.f to avoid compiler warnings 
 

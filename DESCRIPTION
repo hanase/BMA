@@ -1,6 +1,6 @@
 Package: BMA
-Version: 3.18.19
-Date: 2024-10-17
+Version: 3.18.20
+Date: 2025-01-10
 Title: Bayesian Model Averaging
 Authors@R: c(person(given = "Adrian",
                       family = "Raftery",
