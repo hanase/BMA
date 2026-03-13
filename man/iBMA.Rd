@@ -238,12 +238,14 @@ set.seed(0)
 x <- matrix( rnorm(50*30), 50, 30)
 lp <- apply( x[,1:5], 1, sum)
 iBMA.bicreg.ex <- iBMA.bicreg( x = x,  Y = lp, thresProbne0 = 5, maxNvar = 20)
+summary(iBMA.bicreg.ex)
 
 explp <- exp(lp)
 prob <- explp/(1+explp)
 y=rbinom(n=length(prob),prob=prob,size=1)
 iBMA.glm.ex <- iBMA.glm( x = x, Y = y, glm.family = "binomial",
                          factor.type = FALSE, thresProbne0 = 5, maxNvar = 20)
+summary(iBMA.glm.ex)
 
 cat("\n\n CAUTION: iBMA.bicreg can give degenerate results when")
 cat(" the number of predictor variables is large\n\n")

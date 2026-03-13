@@ -32,7 +32,11 @@ iBMA.bicreg.data.frame<- function(x, Y, wt = rep(1, nrow(X)), thresProbne0 = 5, 
    
   X<- x
    
-     
+  if(is.null(colnames(X))) {
+     x.df <- data.frame(X)
+     colnames(X) <- colnames(x.df)
+  }
+  
    ### sort variables prior to running iterations if required
    
    if (!sorted)

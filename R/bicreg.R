@@ -206,6 +206,8 @@ function (x, y, wt = rep(1, length(y)), strict = FALSE, OR = 20,
     fittedValues <- function(coef, x) cbind(1, x) %*% coef
     residualVariance <- function(coef, x, y) sum((y - fittedValues(coef, 
         x))^2)/(length(y) - length(coef))
+    if(length(y) <= ncol(EbiMk))
+        warning("Problem with computing the residual variance. The function was not designed for cases when the number of variables is larger or equal to the number of observations.")
     resvar <- apply(EbiMk, 1, residualVariance, x = x, y = y)
     result <- list(postprob = postprob, namesx = xnames, label = label, 
         r2 = r2, bic = bic, size = (size - 1), which = which, 

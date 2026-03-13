@@ -1,3 +1,8 @@
+3.18.21 (2026-03-13):
+- Removed code chunks that were unlocking package name space, 
+  requested by CRAN.
+- Added warning to bicreg for cases when p > n (thanks to Leo Pfitzner).
+
 3.18.19/20 (2025-01-10):
 - C-code fixes due to changes in the "inline" package (thanks to Dirk Eddelbuettel)
 

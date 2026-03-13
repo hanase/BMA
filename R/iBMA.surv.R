@@ -26,6 +26,10 @@ function (x, surv.t, cens, wt = rep(1, nrow(X)), thresProbne0 = 5,
         return(list(sortedX = sortedX, initial.order = initial.order))
     }
     X <- x
+    if(is.null(colnames(X))) {
+      x.df <- data.frame(X)
+      colnames(X) <- colnames(x.df)
+    }
     cl <- match.call()
     printC <- printCGen(verbose)
     if (factor.type == FALSE) {
