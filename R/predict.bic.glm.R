@@ -10,7 +10,7 @@ function(object,newdata,...){
         form.vars <- all.vars(formula(lm.out))[-1]
         any.dropped <- FALSE
         dropped.which <- NULL
-        while (length(lm.out$coefficients) > maxCol) {
+        while (length(lm.out$coefficients) > maxCols) {
             any.dropped <- TRUE
             droplm <- drop1(lm.out, test = "none")
             dropped <- row.names(droplm)[which.min(droplm$RSS[-1]) +

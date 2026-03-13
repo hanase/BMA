@@ -12,64 +12,14 @@ function (x, surv.t, cens, wt = rep(1, nrow(X)), thresProbne0 = 5,
             collapse = " "), "\n", sep = "")))
     }
 
-
-# CF namespace unlock from https://gist.github.com/wch/3280369
-#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-inc <- '
-/* This is taken from envir.c in the R 2.15.1 source
-https://github.com/SurajGupta/r-source/blob/master/src/main/envir.c
-*/
-#define FRAME_LOCK_MASK (1<<14)
-#define FRAME_IS_LOCKED(e) (ENVFLAGS(e) & FRAME_LOCK_MASK)
-#define UNLOCK_FRAME(e) SET_ENVFLAGS(e, ENVFLAGS(e) & (~ FRAME_LOCK_MASK))
-#define R_NO_REMAP
-'
- 
-src <- '
-if (TYPEOF(env) == NILSXP)
-Rf_error("use of NULL environment is defunct");
-if (TYPEOF(env) != ENVSXP)
-Rf_error("not an environment");
- 
-UNLOCK_FRAME(env);
- 
-// Return TRUE if unlocked; FALSE otherwise
-SEXP result = PROTECT( Rf_allocVector(LGLSXP, 1) );
-LOGICAL(result)[0] = FRAME_IS_LOCKED(env) == 0;
-UNPROTECT(1);
- 
-return result;
-'
-
-unlockEnvironment <- cfunction(signature(env = "environment"),
-includes = inc,
-body = src,
-language = "C")
-
-    nsEnv <- asNamespace('BMA')
-    unlockEnvironment(nsEnv)
-    nsEnv$glob <- function() {
-        utils::globalVariables(parent.env(environment()))
-    }
-    environment(nsEnv$glob) <- nsEnv
-    pkgEnv <- as.environment('package:BMA')
-    unlockEnvironment(pkgEnv)
-    pkgEnv$glob <- nsEnv$glob
-    exportEnv <- nsEnv$.__NAMESPACE__.$exports
-    exportEnv$glob <- c(glob="glob")
-#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-    utils::globalVariables("nastyHack_x.df")
     sortX <- function(surv.t, cens, X, wt) {
         fitvec <- rep(NA, times = ncol(X))
-        nastyHack_x.df <- data.frame(X)
         scp <- formula(paste("~", paste(colnames(X), sep = "", 
             collapse = " + ")))
         cox.out <- coxph(Surv(surv.t, cens) ~ 1, weights = wt, 
-            method = "breslow", iter.max = 30, data = nastyHack_x.df)
+            method = "breslow", iter.max = 30, data = data.frame(X))
         addcox <- add1(cox.out, scope = scp, test = "Chisq", 
-            data = nastyHack_x.df)
+            data = data.frame(X))
         fitvec <- addcox[-1, grep("^P.*Chi", names(addcox))]
         initial.order <- order(fitvec, decreasing = FALSE)
         sortedX <- X[, initial.order]
